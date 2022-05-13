@@ -10,6 +10,7 @@
     },
     "bugs": "https://github.com/kinde-oss/kinde-node-express",
     "homepage": "https://kinde.com",
+    "license": "Apache-2.0",
     "scripts": {
         "build": "rollup -c",
         "test": "echo \"Error: no test specified\" && exit 1"
