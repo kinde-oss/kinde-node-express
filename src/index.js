@@ -69,7 +69,7 @@ const setupKinde = async (credentials, app) => {
 
 const getUser = async (req, res, next) => {
     const { kindeAccessToken } = req.session;
-    const parsedToken = JSON.parse(kindeAccessToken);
+    const parsedToken = kindeAccessToken && JSON.parse(kindeAccessToken);
 
     if (parsedToken) {
         try {
@@ -90,7 +90,7 @@ const getUser = async (req, res, next) => {
 const protectRoute = (req, res, next) => {
     const { kindeAccessToken } = req.session;
 
-    const parsedToken = JSON.parse(kindeAccessToken);
+    const parsedToken = kindeAccessToken && JSON.parse(kindeAccessToken);
 
     kindeAccessToken && authToken(parsedToken.access_token, pem, (err, user) => {
         if (err) return res.sendStatus(403);
