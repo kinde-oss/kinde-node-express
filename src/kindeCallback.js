@@ -25,7 +25,6 @@ const kindeCallback = credentials => async (req, res, next) => {
 
             }, {json: true});
             const token = accessToken.token;
-            console.log('hello');
 
             req.session.kindeAccessToken = JSON.stringify(token);
             req.session.kindeState = null;
