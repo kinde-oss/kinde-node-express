@@ -1,5 +1,5 @@
-const crypto = require('crypto');
+const crypto = require("crypto");
 
-const randomString = () => crypto.randomBytes(28).toString('hex');
+const randomString = () => crypto.randomBytes(28).toString("hex");
 
-module.exports = randomString;
+export { randomString };
