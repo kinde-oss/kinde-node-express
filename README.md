@@ -18,4 +18,4 @@ yarn add @kinde-oss/kinde-node-express
 
 ## How to use
 
-The easiest way to get up and going is following this guide on our docs site [https://kinde.com/docs/sdks/node-express](https://kinde.com/docs/sdks/node-express)
+The easiest way to get up and going is to use our starter kit [https://github.com/kinde-starter-kits/node-express](https://github.com/kinde-starter-kits/node-express)
