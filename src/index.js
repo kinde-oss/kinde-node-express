@@ -9,7 +9,7 @@ const session = require("express-session");
 const oneDay = 1000 * 60 * 60 * 24;
 
 let pem;
-let baseDomain;
+let issuerUrl;
 let unAuthorisedRedirectUrl;
 
 const setupKinde = async (credentials, app) => {
@@ -22,16 +22,16 @@ const setupKinde = async (credentials, app) => {
     })
   );
 
-  const { domain, issuerBaseUrl, unAuthorisedUrl } = credentials;
-  pem = await getPem(domain);
-  baseDomain = domain;
+  const { issuerBaseUrl, siteUrl, unAuthorisedUrl } = credentials;
+  pem = await getPem(issuerBaseUrl);
+  issuerUrl = issuerBaseUrl;
   unAuthorisedRedirectUrl = unAuthorisedUrl;
 
   const buildUrl = (isRegister) => {
-    const url = new URL(`https://${domain}/oauth2/auth`);
+    const url = new URL(`${issuerBaseUrl}/oauth2/auth`);
 
     url.searchParams.append("client_id", "reg@live");
-    url.searchParams.append("redirect_uri", `${issuerBaseUrl}/kinde_callback`);
+    url.searchParams.append("redirect_uri", `${siteUrl}/kinde_callback`);
     url.searchParams.append("response_type", "code");
 
     if (isRegister) url.searchParams.append("start_page", "registration");
@@ -41,10 +41,10 @@ const setupKinde = async (credentials, app) => {
 
   const loginUrl = buildUrl();
   const registerUrl = buildUrl(true);
-  const logoutUrl = new URL(`https://${domain}/logout`);
+  const logoutUrl = new URL(`${issuerBaseUrl}/logout`);
 
   logoutUrl.search = new URLSearchParams({
-    redirect: `${issuerBaseUrl}`,
+    redirect: `${siteUrl}`,
   });
 
   app.get("/login", (req, res) => {
@@ -75,14 +75,11 @@ const getUser = async (req, res, next) => {
 
   if (parsedToken) {
     try {
-      const response = await axios.get(
-        `https://${baseDomain}/oauth2/user_profile`,
-        {
-          headers: {
-            Authorization: "Bearer " + parsedToken.access_token,
-          },
-        }
-      );
+      const response = await axios.get(`${issuerUrl}/oauth2/user_profile`, {
+        headers: {
+          Authorization: "Bearer " + parsedToken.access_token,
+        },
+      });
 
       req.user = response.data;
       return next();

@@ -3,7 +3,7 @@ const { AuthorizationCode } = require("simple-oauth2");
 const kindeCallback = (credentials) => async (req, res, next) => {
   const { code, state } = req.query;
   const { kindeState } = req.session;
-  const { domain, issuerBaseUrl, secret, redirectUrl, unAuthorisedUrl } =
+  const { issuerBaseUrl, siteUrl, secret, redirectUrl, unAuthorisedUrl } =
     credentials;
 
   if (kindeState === state) {
@@ -13,7 +13,7 @@ const kindeCallback = (credentials) => async (req, res, next) => {
         secret: secret,
       },
       auth: {
-        tokenHost: `https://${domain}`,
+        tokenHost: issuerBaseUrl,
         tokenPath: "/oauth2/token",
         authorizePath: "/oauth2/auth",
       },
@@ -22,7 +22,7 @@ const kindeCallback = (credentials) => async (req, res, next) => {
       const accessToken = await client.getToken(
         {
           code,
-          redirect_uri: `${issuerBaseUrl}/kinde_callback`,
+          redirect_uri: `${siteUrl}/kinde_callback`,
         },
         { json: true }
       );
@@ -36,7 +36,7 @@ const kindeCallback = (credentials) => async (req, res, next) => {
       next();
     }
   } else {
-    res.redirect(unAuthorisedUrl);
+    res.redirect(unAuthorisedUrl || redirectUrl);
   }
 };
 
