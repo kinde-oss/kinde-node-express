@@ -22,7 +22,7 @@ const setupKinde = async (credentials, app) => {
     })
   );
 
-  const { issuerBaseUrl, siteUrl, unAuthorisedUrl } = credentials;
+  const { issuerBaseUrl, siteUrl, unAuthorisedUrl, clientId } = credentials;
   pem = await getPem(issuerBaseUrl);
   issuerUrl = issuerBaseUrl;
   unAuthorisedRedirectUrl = unAuthorisedUrl;
@@ -30,7 +30,7 @@ const setupKinde = async (credentials, app) => {
   const buildUrl = (isRegister) => {
     const url = new URL(`${issuerBaseUrl}/oauth2/auth`);
 
-    url.searchParams.append("client_id", "reg@live");
+    url.searchParams.append("client_id", clientId || "reg@live");
     url.searchParams.append("redirect_uri", `${siteUrl}/kinde_callback`);
     url.searchParams.append("response_type", "code");
 

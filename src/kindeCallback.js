@@ -9,7 +9,7 @@ const kindeCallback = (credentials) => async (req, res, next) => {
   if (kindeState === state) {
     const client = new AuthorizationCode({
       client: {
-        id: "reg@live",
+        id: clientId || "reg@live",
         secret: secret,
       },
       auth: {
