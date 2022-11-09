@@ -75,7 +75,7 @@ const getUser = async (req, res, next) => {
 
   if (parsedToken) {
     try {
-      const response = await axios.get(`${issuerUrl}/oauth2/user_profile`, {
+      const response = await axios.get(`${issuerUrl}/oauth2/v2/user_profile`, {
         headers: {
           Authorization: "Bearer " + parsedToken.access_token,
         },
