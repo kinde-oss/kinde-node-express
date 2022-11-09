@@ -3,8 +3,14 @@ const { AuthorizationCode } = require("simple-oauth2");
 const kindeCallback = (credentials) => async (req, res, next) => {
   const { code, state } = req.query;
   const { kindeState } = req.session;
-  const { issuerBaseUrl, siteUrl, secret, redirectUrl, unAuthorisedUrl } =
-    credentials;
+  const {
+    issuerBaseUrl,
+    clientId,
+    siteUrl,
+    secret,
+    redirectUrl,
+    unAuthorisedUrl,
+  } = credentials;
 
   if (kindeState === state) {
     const client = new AuthorizationCode({
