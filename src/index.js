@@ -1,3 +1,4 @@
+const { AuthorizationCode } = require("simple-oauth2");
 const { authToken, getPem } =
   require("@kinde-oss/kinde-node-auth-utils").default;
 const axios = require("axios");
@@ -9,8 +10,8 @@ const session = require("express-session");
 const oneDay = 1000 * 60 * 60 * 24;
 
 let pem;
-let issuerUrl;
 let unAuthorisedRedirectUrl;
+let issuerUrl;
 
 const setupKinde = async (credentials, app) => {
   app.use(
@@ -22,26 +23,40 @@ const setupKinde = async (credentials, app) => {
     })
   );
 
-  const { issuerBaseUrl, siteUrl, unAuthorisedUrl, clientId } = credentials;
+  const {
+    issuerBaseUrl,
+    redirectUrl,
+    siteUrl,
+    secret,
+    unAuthorisedUrl,
+    clientId,
+  } = credentials;
   pem = await getPem(issuerBaseUrl);
   issuerUrl = issuerBaseUrl;
   unAuthorisedRedirectUrl = unAuthorisedUrl;
 
-  const buildUrl = (isRegister) => {
-    const url = new URL(`${issuerBaseUrl}/oauth2/auth`);
+  const client = new AuthorizationCode({
+    client: {
+      id: clientId || "reg@live",
+      secret: secret,
+    },
+    auth: {
+      tokenHost: issuerUrl,
+      tokenPath: "/oauth2/token",
+      authorizePath: "/oauth2/auth",
+    },
+  });
 
-    url.searchParams.append("client_id", clientId || "reg@live");
-    url.searchParams.append("redirect_uri", `${siteUrl}/kinde_callback`);
-    url.searchParams.append("response_type", "code");
+  const url = new URL(
+    client.authorizeURL({
+      redirect_uri: `${siteUrl}/kinde_callback`,
+      scope: "openid profile email",
+    })
+  );
 
-    if (isRegister) url.searchParams.append("start_page", "registration");
-
-    return url;
-  };
-
-  const loginUrl = buildUrl();
-  const registerUrl = buildUrl(true);
-  const logoutUrl = new URL(`${issuerBaseUrl}/logout`);
+  const loginUrl = url;
+  const registerUrl = url;
+  const logoutUrl = new URL(`${issuerUrl}/logout`);
 
   logoutUrl.search = new URLSearchParams({
     redirect: `${siteUrl}`,
@@ -57,6 +72,7 @@ const setupKinde = async (credentials, app) => {
   app.get("/register", (req, res) => {
     const state = randomString();
     registerUrl.searchParams.set("state", state);
+    registerUrl.searchParams.append("start_page", "registration");
     req.session.kindeState = state;
     res.redirect(registerUrl.href);
   });
@@ -66,7 +82,10 @@ const setupKinde = async (credentials, app) => {
     res.redirect(logoutUrl.href);
   });
 
-  app.get("/kinde_callback", kindeCallback(credentials));
+  app.get(
+    "/kinde_callback",
+    kindeCallback(client, { siteUrl, redirectUrl, unAuthorisedUrl })
+  );
 };
 
 const getUser = async (req, res, next) => {
