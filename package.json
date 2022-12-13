@@ -1,6 +1,6 @@
 {
   "name": "@kinde-oss/kinde-node-express",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Kinde SDK for traditional Node.js Express web apps that run on the server",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -10,7 +10,7 @@
   },
   "bugs": "https://github.com/kinde-oss/kinde-node-express",
   "homepage": "https://kinde.com",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "scripts": {
     "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -37,7 +37,8 @@
     "Express"
   ],
   "files": [
-    "dist"
+    "dist",
+    "LICENCE.md"
   ],
   "private": false,
   "dependencies": {
