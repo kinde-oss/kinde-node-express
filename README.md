@@ -2,6 +2,8 @@
 
 Kinde SDK for traditional Node.js Express web apps that run on the server.
 
+Also includes a JWT verifier.
+
 ## Install
 
 Run the following command using npm:
