@@ -4,6 +4,7 @@ const { authToken, getPem } =
 const axios = require("axios");
 import { kindeCallback } from "./kindeCallback";
 import { randomString } from "./utils/randomString";
+import { jwtVerify } from "./jwtVerifier";
 const session = require("express-session");
 
 // creating 24 hours from milliseconds
@@ -128,4 +129,5 @@ module.exports = {
   setupKinde,
   protectRoute,
   getUser,
+  jwtVerify,
 };
