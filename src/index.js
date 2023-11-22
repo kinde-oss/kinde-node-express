@@ -5,24 +5,14 @@ const axios = require("axios");
 import { kindeCallback } from "./kindeCallback";
 import { randomString } from "./utils/randomString";
 import { jwtVerify } from "./jwtVerifier";
-const session = require("express-session");
-
-// creating 24 hours from milliseconds
-const oneDay = 1000 * 60 * 60 * 24;
+import { setupKindeSession } from './sessionManager';
 
 let pem;
 let unAuthorisedRedirectUrl;
 let issuerUrl;
 
 const setupKinde = async (credentials, app) => {
-  app.use(
-    session({
-      secret: randomString(),
-      saveUninitialized: true,
-      cookie: { maxAge: oneDay },
-      resave: false,
-    })
-  );
+  setupKindeSession(app);
 
   const {
     issuerBaseUrl,
