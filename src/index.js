@@ -1,10 +1,5 @@
 import { jwtVerify } from "./jwtVerifier";
-import { setupKindeSession } from './sessionManager';
-
-import {
-  GrantType,
-  createKindeServerClient
-} from "@kinde-oss/kinde-typescript-sdk";
+import { getInternalClient, performInitialSetup } from './setup';
 
 const {
   authToken,
@@ -12,39 +7,13 @@ const {
 } = require("@kinde-oss/kinde-node-auth-utils").default;
 
 let pem;
-let unAuthorisedRedirectUrl;
-let issuerUrl;
-let kindeClient;
 
 const setupKinde = async (credentials, app) => {
-  setupKindeSession(app);
+  performInitialSetup(app, credentials);
 
-  const {
-    issuerBaseUrl,
-    redirectUrl,
-    siteUrl,
-    secret,
-    unAuthorisedUrl,
-    clientId,
-  } = credentials;
-
+  const { issuerBaseUrl, siteUrl } = credentials;
   pem = await getPem(issuerBaseUrl);
-  issuerUrl = issuerBaseUrl;
-  unAuthorisedRedirectUrl = unAuthorisedUrl;
-
-  const clientOptions = {
-    authDomain: issuerBaseUrl,
-    redirectURL: redirectUrl,
-    clientId: clientId ?? 'reg@live',
-    clientSecret: secret,
-    logoutRedirectURL: siteUrl,
-    scope: 'openid profile email',
-  };
-
-  kindeClient = createKindeServerClient(
-    GrantType.AUTHORIZATION_CODE,
-    clientOptions,
-  );
+  const kindeClient = getInternalClient();
 
   app.get("/login", async (req, res) => {
     const loginURL = await kindeClient.login(req);
@@ -71,40 +40,30 @@ const setupKinde = async (credentials, app) => {
   });
 };
 
-const getUser = async (req, res, next) => {
-  const { kindeAccessToken } = req.session;
-  const parsedToken = kindeAccessToken && JSON.parse(kindeAccessToken);
-
-  if (parsedToken) {
-    try {
-      const response = await axios.get(`${issuerUrl}/oauth2/v2/user_profile`, {
-        headers: {
-          Authorization: "Bearer " + parsedToken.access_token,
-        },
-      });
-
-      req.user = response.data;
-      return next();
-    } catch (err) {
-      console.log(err);
-    }
+const getUser = async (req, _, next) => { 
+  try {
+    const kindeClient = getInternalClient();
+    const userProfile = await kindeClient.getUserProfile(req);
+    req.user = userProfile;
+    next();
+  } catch (error) {
+    next(error);
   }
 };
 
-const protectRoute = (req, res, next) => {
-  const { kindeAccessToken } = req.session;
+const protectRoute = async (req, res, next) => {
+  const kindeClient = getInternalClient();
+  if (!await kindeClient.isAuthenticated(req)) {
+    return res.sendStatus(403);
+  }
 
-  const parsedToken = kindeAccessToken && JSON.parse(kindeAccessToken);
+  const callback = (error) => {
+    if (error) return res.sendStatus(403);
+    next();
+  }
 
-  kindeAccessToken &&
-    authToken(parsedToken.access_token, pem, (err, user) => {
-      if (err) return res.sendStatus(403);
-      const userObj = JSON.parse(user);
-      req.user = { id: userObj.sub };
-      next();
-    });
-
-  if (!kindeAccessToken) res.redirect(unAuthorisedRedirectUrl);
+  const parsedToken = await kindeClient.getToken(req);
+  authToken(parsedToken, pem, callback);
 };
 
 module.exports = {
