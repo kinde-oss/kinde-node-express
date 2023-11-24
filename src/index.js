@@ -1,4 +1,3 @@
-import { jwtVerify } from "./jwtVerifier";
 import { getInternalClient, performInitialSetup } from './setup';
 import { setupAuthRouter } from './auth';
 
@@ -46,5 +45,4 @@ module.exports = {
   setupKinde,
   protectRoute,
   getUser,
-  jwtVerify,
 };
