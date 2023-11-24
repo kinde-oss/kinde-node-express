@@ -9,3 +9,11 @@ export const getRequestURL = req => {
   return new URL(`${req.protocol}://${host}${req.originalUrl}`);
 }
 
+export const catchError = middleware => {
+  return (req, res, next) => {
+    const onSuccess = () => next();
+    const onFailure = error => next(error);
+    middleware(req, res, next).then(onSuccess, onFailure);
+  }
+}
+
