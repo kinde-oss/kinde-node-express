@@ -1,4 +1,4 @@
-import { getInternalClient, performInitialSetup } from './setup';
+import { getInternalClient, setupInternalClient } from './setup';
 import { setupAuthRouter } from './auth';
 
 const {
@@ -8,10 +8,10 @@ const {
 
 let pem;
 
-const setupKinde = async (credentials, app) => {
-  performInitialSetup(app, credentials);
+const setupKinde = async (config, app) => {
+  setupInternalClient(app, config);
   setupAuthRouter(app, '/');
-  const { issuerBaseUrl } = credentials;
+  const { issuerBaseUrl } = config;
   pem = await getPem(issuerBaseUrl);
 };
 
