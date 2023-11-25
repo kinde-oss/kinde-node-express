@@ -12,6 +12,11 @@
   "homepage": "https://kinde.com",
   "license": "MIT",
   "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prettier": "prettier -c .",
+    "prettier:write": "prettier --write .",
+    "format": "npm run lint:fix && npm run prettier:write",
     "build": "genversion --es6 --semi ./src/version.js && rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -26,9 +31,10 @@
     "@rollup/plugin-node-resolve": "^13.3.0",
     "eslint": "^8.8.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^5.0.1",
     "genversion": "^3.1.1",
     "nodemon": "^2.0.15",
-    "prettier": "^2.5.1",
+    "prettier": "^3.1.0",
     "rollup": "^2.74.1"
   },
   "keywords": [
