@@ -6,6 +6,7 @@ export const getAuthRouter = () => {
   router.get('/login', handlers.handleLogin);
   router.get('/logout', handlers.handleLogout);
   router.get('/register', handlers.handleRegister);
+  router.get('/create_org', handlers.handleCreateOrg);
   router.get('/kinde_callback', handlers.handleCallback);
   return router;
 }

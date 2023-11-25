@@ -13,6 +13,12 @@ export const handleRegister = async (req, res) => {
   res.redirect(registerURL);
 }
 
+export const handleCreateOrg = async(req, res) => {
+  const client = getInternalClient();
+  const createOrgURL = await client.createOrg(req);
+  res.redirect(createOrgURL);
+}
+
 export const handleLogout = async (req, res) => {
   const client = getInternalClient();
   const logoutURL = await client.logout(req);
