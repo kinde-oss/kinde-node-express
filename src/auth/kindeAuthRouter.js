@@ -1,31 +1,32 @@
 import { getInitialConfig, getInternalClient } from "../setup";
 import { getRequestURL } from "../utils";
+const express = require('express');
 
-export const handleLogin = async (req, res) => {
+const handleLogin = async (req, res) => {
   const client = getInternalClient();
   const loginURL = await client.login(req);
   res.redirect(loginURL);
 }
 
-export const handleRegister = async (req, res) => {
+const handleRegister = async (req, res) => {
   const client = getInternalClient();
   const registerURL = await client.register(req);
   res.redirect(registerURL);
 }
 
-export const handleCreateOrg = async(req, res) => {
+const handleCreateOrg = async(req, res) => {
   const client = getInternalClient();
   const createOrgURL = await client.createOrg(req);
   res.redirect(createOrgURL);
 }
 
-export const handleLogout = async (req, res) => {
+const handleLogout = async (req, res) => {
   const client = getInternalClient();
   const logoutURL = await client.logout(req);
   res.redirect(logoutURL);
 }
 
-export const handleCallback = async (req, res) => {
+const handleCallback = async (req, res) => {
   try {
     const { siteUrl } = getInitialConfig();
     const client = getInternalClient();
@@ -36,4 +37,14 @@ export const handleCallback = async (req, res) => {
     const { unAuthorisedUrl } = getInitialConfig();
     res.redirect(unAuthorisedUrl);
   }
+}
+
+export const getAuthRouter = () => {
+  const router = express.Router();
+  router.get('/login', handleLogin);
+  router.get('/logout', handleLogout);
+  router.get('/register', handleRegister);
+  router.get('/create_org', handleCreateOrg);
+  router.get('/kinde_callback', handleCallback);
+  return router;
 }
