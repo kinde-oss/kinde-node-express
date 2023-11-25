@@ -3,6 +3,10 @@ import {
   createKindeServerClient 
 } from "@kinde-oss/kinde-typescript-sdk";
 
+import { 
+  version as frameworkSDKVersion 
+} from '../version';
+
 let initialConfig;
 let internalClient;
 
@@ -41,6 +45,8 @@ export const setupInternalClient = (config) => {
       clientSecret: secret,
       logoutRedirectURL: siteUrl,
       scope: 'openid profile email',
+      framework: 'ExpressJS',
+      frameworkVersion: frameworkSDKVersion,
     }
   );
 
