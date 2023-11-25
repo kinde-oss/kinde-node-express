@@ -13,9 +13,10 @@ export const getUser = catchError(async req => {
 });
 
 export const protectRoute = async (req, res, next) => {
+  const { unAuthorisedUrl } = getInitialConfig();
   const kindeClient = getInternalClient();
   if (!await kindeClient.isAuthenticated(req)) {
-    return res.sendStatus(403);
+    return res.status(403).redirect(unAuthorisedUrl);
   }
 
   const callbackFn = error => {

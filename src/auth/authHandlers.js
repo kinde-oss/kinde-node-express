@@ -26,9 +26,14 @@ export const handleLogout = async (req, res) => {
 }
 
 export const handleCallback = async (req, res) => {
-  const { siteUrl } = getInitialConfig();
-  const client = getInternalClient();
-  const callbackURL = getRequestURL(req);
-  await client.handleRedirectToApp(req, callbackURL);
-  res.redirect(siteUrl);
+  try {
+    const { siteUrl } = getInitialConfig();
+    const client = getInternalClient();
+    const callbackURL = getRequestURL(req);
+    await client.handleRedirectToApp(req, callbackURL);
+    res.redirect(siteUrl);
+  } catch (error) {
+    const { unAuthorisedUrl } = getInitialConfig();
+    res.redirect(unAuthorisedUrl);
+  }
 }
