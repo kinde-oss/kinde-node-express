@@ -1,30 +1,30 @@
-import { getInitialConfig, getInternalClient } from "../setup";
-import { getRequestURL } from "../utils";
+import { getInitialConfig, getInternalClient } from '../setup';
+import { getRequestURL } from '../utils';
 import express from 'express';
 
 const handleLogin = async (req, res) => {
   const client = getInternalClient();
   const loginURL = await client.login(req);
   res.redirect(loginURL);
-}
+};
 
 const handleRegister = async (req, res) => {
   const client = getInternalClient();
   const registerURL = await client.register(req);
   res.redirect(registerURL);
-}
+};
 
-const handleCreateOrg = async(req, res) => {
+const handleCreateOrg = async (req, res) => {
   const client = getInternalClient();
   const createOrgURL = await client.createOrg(req);
   res.redirect(createOrgURL);
-}
+};
 
 const handleLogout = async (req, res) => {
   const client = getInternalClient();
   const logoutURL = await client.logout(req);
   res.redirect(logoutURL);
-}
+};
 
 const handleCallback = async (req, res) => {
   try {
@@ -37,7 +37,7 @@ const handleCallback = async (req, res) => {
     const { unAuthorisedUrl } = getInitialConfig();
     res.redirect(unAuthorisedUrl);
   }
-}
+};
 
 export const getAuthRouter = () => {
   const router = express.Router();
@@ -47,4 +47,4 @@ export const getAuthRouter = () => {
   router.get('/create_org', handleCreateOrg);
   router.get('/kinde_callback', handleCallback);
   return router;
-}
+};

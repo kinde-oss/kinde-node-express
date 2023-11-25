@@ -1,11 +1,5 @@
-import { 
-  GrantType, 
-  createKindeServerClient 
-} from "@kinde-oss/kinde-typescript-sdk";
-
-import { 
-  version as frameworkSDKVersion 
-} from '../version';
+import { GrantType, createKindeServerClient } from '@kinde-oss/kinde-typescript-sdk';
+import { version as frameworkSDKVersion } from '../version';
 
 let initialConfig;
 let internalClient;
@@ -16,7 +10,7 @@ export const getInitialConfig = () => {
   } else {
     return initialConfig;
   }
-}
+};
 
 export const getInternalClient = () => {
   if (internalClient === undefined) {
@@ -24,17 +18,11 @@ export const getInternalClient = () => {
   } else {
     return internalClient;
   }
-}
+};
 
-export const validateInitialConfig = config => {
-  const {
-    issuerBaseUrl,
-    redirectUrl,
-    siteUrl,
-    secret,
-    unAuthorisedUrl,
-    clientId,
-  } = config;
+export const validateInitialConfig = (config) => {
+  const { issuerBaseUrl, redirectUrl, siteUrl, secret, unAuthorisedUrl, clientId } =
+    config;
 
   if (!issuerBaseUrl) {
     throw new Error("Required config parameter 'issuerBaseUrl' is not provided");
@@ -61,31 +49,22 @@ export const validateInitialConfig = config => {
   }
 
   return config;
-}
+};
 
 export const setupInternalClient = (config) => {
-  const {
-    issuerBaseUrl,
-    redirectUrl,
-    siteUrl,
-    secret,
-    clientId,
-  } = config;
+  const { issuerBaseUrl, redirectUrl, siteUrl, secret, clientId } = config;
 
   initialConfig = validateInitialConfig(config);
-  internalClient = createKindeServerClient(
-    GrantType.AUTHORIZATION_CODE,
-    {
-      authDomain: issuerBaseUrl,
-      redirectURL: redirectUrl,
-      clientId: clientId ?? 'reg@live',
-      clientSecret: secret,
-      logoutRedirectURL: siteUrl,
-      scope: 'openid profile email',
-      framework: 'ExpressJS',
-      frameworkVersion: frameworkSDKVersion,
-    }
-  );
+  internalClient = createKindeServerClient(GrantType.AUTHORIZATION_CODE, {
+    authDomain: issuerBaseUrl,
+    redirectURL: redirectUrl,
+    clientId: clientId ?? 'reg@live',
+    clientSecret: secret,
+    logoutRedirectURL: siteUrl,
+    scope: 'openid profile email',
+    framework: 'ExpressJS',
+    frameworkVersion: frameworkSDKVersion,
+  });
 
   return internalClient;
-}
+};

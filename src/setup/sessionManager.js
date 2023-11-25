@@ -14,21 +14,21 @@ const getSessionManager = () => {
   return (req, _, next) => {
     req.setSessionItem = async (itemKey, itemValue) => {
       req.session[itemKey] = itemValue;
-    }
-    req.getSessionItem = async itemKey => {
+    };
+    req.getSessionItem = async (itemKey) => {
       return req.session[itemKey] ?? null;
-    }
-    req.removeSessionItem = async itemKey => {
+    };
+    req.removeSessionItem = async (itemKey) => {
       delete req.session[itemKey];
-    }
+    };
     req.destroySession = async () => {
       req.session.destroy();
-    }
+    };
     next();
-  }
-}
+  };
+};
 
 export const setupKindeSession = (app) => {
   app.use(session(sessionConfig));
   app.use(getSessionManager());
-}
+};
