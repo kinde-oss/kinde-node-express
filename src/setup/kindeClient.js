@@ -26,6 +26,43 @@ export const getInternalClient = () => {
   }
 }
 
+export const validateInitialConfig = config => {
+  const {
+    issuerBaseUrl,
+    redirectUrl,
+    siteUrl,
+    secret,
+    unAuthorisedUrl,
+    clientId,
+  } = config;
+
+  if (!issuerBaseUrl) {
+    throw new Error("Required config parameter 'issuerBaseUrl' is not provided");
+  }
+
+  if (!siteUrl) {
+    throw new Error("Required config parameter 'siteUrl' is not provided");
+  }
+
+  if (!secret) {
+    throw new Error("Required config parameter 'secret' is not provided");
+  }
+
+  if (!clientId) {
+    throw new Error("Required config parameter 'clientId' is not provided");
+  }
+
+  if (!unAuthorisedUrl) {
+    throw new Error("Required config parameter 'unAuthorisedUrl' is not provided");
+  }
+
+  if (!redirectUrl) {
+    throw new Error("Required config parameter 'redirectUrl' is not provided");
+  }
+
+  return config;
+}
+
 export const setupInternalClient = (config) => {
   const {
     issuerBaseUrl,
@@ -35,7 +72,7 @@ export const setupInternalClient = (config) => {
     clientId,
   } = config;
 
-  initialConfig = config;
+  initialConfig = validateInitialConfig(config);
   internalClient = createKindeServerClient(
     GrantType.AUTHORIZATION_CODE,
     {
