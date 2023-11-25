@@ -1,10 +1,8 @@
+import { default as  authUtils } from '@kinde-oss/kinde-node-auth-utils';
 import { getInitialConfig, getInternalClient } from "../setup";
 import { catchError } from "../utils";
 
-const {
-  authToken,
-  getPem
-} = require("@kinde-oss/kinde-node-auth-utils").default;
+const { authToken, getPem } = authUtils;
 
 export const getUser = catchError(async req => {
   const kindeClient = getInternalClient();

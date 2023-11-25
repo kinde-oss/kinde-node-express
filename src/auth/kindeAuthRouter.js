@@ -1,6 +1,6 @@
 import { getInitialConfig, getInternalClient } from "../setup";
 import { getRequestURL } from "../utils";
-const express = require('express');
+import express from 'express';
 
 const handleLogin = async (req, res) => {
   const client = getInternalClient();

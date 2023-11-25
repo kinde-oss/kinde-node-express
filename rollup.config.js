@@ -1,8 +1,10 @@
-import { nodeResolve } from "@rollup/plugin-node-resolve";
+import json from '@rollup/plugin-json';
+import commonjs from '@rollup/plugin-commonjs';
+import { nodeResolve as resolve } from "@rollup/plugin-node-resolve";
 
 export default {
   input: "src/index.js",
-  plugins: [nodeResolve()],
+  plugins: [resolve(), commonjs(), json()],
   output: [
     {
       dir: "dist/esm",

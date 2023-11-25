@@ -1,5 +1,5 @@
-const session = require('express-session');
 import { randomString } from '../utils';
+import session from 'express-session';
 
 const SESSION_MAX_AGE = 1000 * 60 * 60 * 24;
 
