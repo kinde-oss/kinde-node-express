@@ -22,6 +22,17 @@ export const isAuthenticated = async (req) => {
 };
 
 /**
+ * Function fetches details for current user's information, raises exception if 
+ * current user is not authenticated. 
+ * 
+ * @param {import('express').Request} req 
+ * @returns {Promise<import('@kinde-oss/kinde-typescript-sdk').UserType}
+ */
+export const getUserDetails = async (req) => {
+  return getInternalClient().getUser(req);
+}
+
+/**
  * Function returns organization code, in which authenticated user is currently
  * signed into, throws exception if user is not authenticated.
  * 
