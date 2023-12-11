@@ -9,7 +9,9 @@ import { version as frameworkSDKVersion } from '../version';
  * @property {string} secret
  * @property {string} unAuthorisedUrl
  * @property {string} clientId
- */
+ * @property {string | undefined} scope
+ * @property {string | undefined} audience
+ * /
 
 /**
  * @type{SetupConfig}
@@ -95,7 +97,7 @@ export const validateInitialConfig = (config) => {
  * @returns{import('@kinde-oss/kinde-typescript-sdk').ACClient}
  */
 export const setupInternalClient = (config) => {
-  const { issuerBaseUrl, redirectUrl, siteUrl, secret, clientId } = config;
+  const { issuerBaseUrl, redirectUrl, siteUrl, audience, scope, secret, clientId } = config;
 
   initialConfig = validateInitialConfig(config);
   internalClient = createKindeServerClient(GrantType.AUTHORIZATION_CODE, {
@@ -104,7 +106,8 @@ export const setupInternalClient = (config) => {
     clientId: clientId ?? 'reg@live',
     clientSecret: secret,
     logoutRedirectURL: siteUrl,
-    scope: 'openid profile email',
+    audience: audience ?? undefined,
+    scope: scope ?? 'openid profile email',
     framework: 'ExpressJS',
     frameworkVersion: frameworkSDKVersion,
   });
