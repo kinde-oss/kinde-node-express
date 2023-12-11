@@ -1,2 +1,2 @@
 export * from './kindeHelpers';
-export * from './kindeMiddlewareHelpers';
+export * as kindeMiddlewares from './kindeMiddlewareHelpers';
