@@ -1,3 +1,4 @@
+import { validateQueryParams } from '../auth';
 import { getInternalClient } from '../setup';
 
 /**
@@ -31,6 +32,21 @@ export const isAuthenticated = async (req) => {
 export const getUserDetails = async (req) => {
   return getInternalClient().getUser(req);
 }
+
+/**
+ * Function uses internal SDK to return registration url with the `is_create_org`
+ * query param set to true.
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns {Promise<URL>} required createOrg authorization URL
+ */
+export const createOrg = async (req, res) => {
+  validateQueryParams(req.query);
+  const { createOrg } = getInternalClient();
+  const createOrgURL = await createOrg(req, req.query);
+  res.redirect(createOrgURL);
+};
 
 /**
  * Function returns organization code, in which authenticated user is currently

@@ -3,6 +3,23 @@ import { getRequestURL } from '../utils';
 import express from 'express';
 
 /**
+ * Validates request query parameters for login, regsister and createOrg URLs.
+ * 
+ * @param {object} requestQuery
+ */
+export const validateQueryParams = (requestQuery) => {
+  const queryParams = ['org_name', 'org_code'];
+  queryParams.forEach(param => {
+    const value = requestQuery[param];
+    if (value !== undefined) {
+      if (!value || typeof value !== 'string') {
+        throw new Error(`Provided param '${param}' has invalid value '${value}'`);
+      }
+    }
+  });
+};
+
+/**
  * Creates login URL using internal SDK and redirects to said URL.
  *
  * @param {import('express').Request} req - The Express request object.
@@ -10,8 +27,9 @@ import express from 'express';
  * @returns {Promise<void>}
  */
 const handleLogin = async (req, res) => {
+  validateQueryParams(req.query);
   const client = getInternalClient();
-  const loginURL = await client.login(req);
+  const loginURL = await client.login(req, req.query);
   res.redirect(loginURL);
 };
 
@@ -23,22 +41,10 @@ const handleLogin = async (req, res) => {
  * @returns {Promise<void>}
  */
 const handleRegister = async (req, res) => {
+  validateQueryParams(req.query);
   const client = getInternalClient();
-  const registerURL = await client.register(req);
+  const registerURL = await client.register(req, req.query);
   res.redirect(registerURL);
-};
-
-/**
- * Creates createOrg URL using internal SDK and redirects to said URL.
- *
- * @param {import('express').Request} req - The Express request object.
- * @param {import('express').Response} res - The Express response object.
- * @returns {Promise<void>}
- */
-const handleCreateOrg = async (req, res) => {
-  const client = getInternalClient();
-  const createOrgURL = await client.createOrg(req);
-  res.redirect(createOrgURL);
 };
 
 /**
@@ -85,7 +91,6 @@ export const getAuthRouter = () => {
   router.get('/login', handleLogin);
   router.get('/logout', handleLogout);
   router.get('/register', handleRegister);
-  router.get('/create_org', handleCreateOrg);
   router.get('/kinde_callback', handleCallback);
   return router;
 };
