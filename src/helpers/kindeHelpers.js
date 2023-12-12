@@ -33,6 +33,18 @@ export const getUserDetails = async (req) => {
   return getInternalClient().getUser(req);
 }
 
+
+/**
+ * Function fetches and returns user information from Kinde's V2 user
+ * profile endpoint, using internal SDK client.
+ * 
+ * @param {import('express').Request} req
+ * @returns {Promise<import('@kinde-oss/kinde-typescript-sdk').UserType}
+ */
+export const getUserProfile = async (req) => {
+  return getInternalClient().getUserProfile(req);
+};
+
 /**
  * Function uses internal SDK to return registration url with the `is_create_org`
  * query param set to true.
