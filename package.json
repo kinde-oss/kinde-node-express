@@ -12,13 +12,15 @@
   "homepage": "https://kinde.com",
   "license": "MIT",
   "scripts": {
+    "prepare": "husky install",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "lint:staged": "npm run format",
     "prettier": "prettier -c .",
     "prettier:write": "prettier --write .",
     "format": "npm run lint:fix && npm run prettier:write",
     "build": "genversion --es6 --semi ./src/version.js && rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"no tests found \" && exit 0"
   },
   "author": {
     "name": "Kinde",
@@ -33,6 +35,8 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^5.0.1",
     "genversion": "^3.1.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
     "nodemon": "^2.0.15",
     "prettier": "^3.1.0",
     "rollup": "^2.74.1"
