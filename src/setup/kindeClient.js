@@ -59,32 +59,21 @@ export const getInternalClient = () => {
  * @returns {SetupConfig}
  */
 export const validateInitialConfig = (config) => {
-  const { issuerBaseUrl, redirectUrl, siteUrl, secret, unAuthorisedUrl, clientId } =
-    config;
+  const configParams = [
+    'issuerBaseUrl',
+    'redirectUrl',
+    'siteUrl',
+    'secret',
+    'unAuthorisedUrl',
+    'clientId',
+  ];
 
-  if (!issuerBaseUrl) {
-    throw new Error("Required config parameter 'issuerBaseUrl' is not provided");
-  }
-
-  if (!siteUrl) {
-    throw new Error("Required config parameter 'siteUrl' is not provided");
-  }
-
-  if (!secret) {
-    throw new Error("Required config parameter 'secret' is not provided");
-  }
-
-  if (!clientId) {
-    throw new Error("Required config parameter 'clientId' is not provided");
-  }
-
-  if (!unAuthorisedUrl) {
-    throw new Error("Required config parameter 'unAuthorisedUrl' is not provided");
-  }
-
-  if (!redirectUrl) {
-    throw new Error("Required config parameter 'redirectUrl' is not provided");
-  }
+  configParams.forEach(param => {
+    const value = config[param];
+    if (!value || typeof value !== 'string') {
+      throw new Error(`Required config parameter '${param}' has invalid value ${value}`);
+    }
+  });
 
   return config;
 };
