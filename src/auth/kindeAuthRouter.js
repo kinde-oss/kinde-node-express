@@ -4,12 +4,12 @@ import express from 'express';
 
 /**
  * Validates request query parameters for login, regsister and createOrg URLs.
- * 
+ *
  * @param {object} requestQuery
  */
 export const validateQueryParams = (requestQuery) => {
   const queryParams = ['org_name', 'org_code'];
-  queryParams.forEach(param => {
+  queryParams.forEach((param) => {
     const value = requestQuery[param];
     if (value !== undefined) {
       if (!value || typeof value !== 'string') {

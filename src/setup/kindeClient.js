@@ -70,10 +70,12 @@ export const validateInitialConfig = (config) => {
     'clientId',
   ];
 
-  configParams.forEach(param => {
+  configParams.forEach((param) => {
     const value = config[param];
     if (!value || typeof value !== 'string') {
-      throw new Error(`Required config parameter '${param}' has invalid value ${value}`);
+      throw new Error(
+        `Required config parameter '${param}' has invalid value ${value}`
+      );
     }
   });
 
@@ -88,7 +90,8 @@ export const validateInitialConfig = (config) => {
  * @returns{import('@kinde-oss/kinde-typescript-sdk').ACClient}
  */
 export const setupInternalClient = (config) => {
-  const { issuerBaseUrl, redirectUrl, siteUrl, audience, scope, secret, clientId } = config;
+  const { issuerBaseUrl, redirectUrl, siteUrl, audience, scope, secret, clientId } =
+    config;
 
   initialConfig = validateInitialConfig(config);
   internalClient = createKindeServerClient(initialConfig.grantType, {
