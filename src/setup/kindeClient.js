@@ -1,8 +1,9 @@
-import { GrantType, createKindeServerClient } from '@kinde-oss/kinde-typescript-sdk';
+import { createKindeServerClient } from '@kinde-oss/kinde-typescript-sdk';
 import { version as frameworkSDKVersion } from '../version';
 
 /**
  * @typedef {Object} SetupConfig
+ * @property {import('@kinde-oss/kinde-typescript-sdk').GrantType} grantType
  * @property {string} issuerBaseUrl
  * @property {string} redirectUrl
  * @property {string} siteUrl
@@ -60,6 +61,7 @@ export const getInternalClient = () => {
  */
 export const validateInitialConfig = (config) => {
   const configParams = [
+    'grantType',
     'issuerBaseUrl',
     'redirectUrl',
     'siteUrl',
@@ -89,7 +91,7 @@ export const setupInternalClient = (config) => {
   const { issuerBaseUrl, redirectUrl, siteUrl, audience, scope, secret, clientId } = config;
 
   initialConfig = validateInitialConfig(config);
-  internalClient = createKindeServerClient(GrantType.AUTHORIZATION_CODE, {
+  internalClient = createKindeServerClient(initialConfig.grantType, {
     authDomain: issuerBaseUrl,
     redirectURL: redirectUrl,
     clientId: clientId ?? 'reg@live',
