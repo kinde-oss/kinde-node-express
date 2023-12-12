@@ -15,7 +15,7 @@
     "prepare": "husky install",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "lint:staged": "npm run format",
+    "lint-staged": "lint-staged",
     "prettier": "prettier -c .",
     "prettier:write": "prettier --write .",
     "format": "npm run lint:fix && npm run prettier:write",
