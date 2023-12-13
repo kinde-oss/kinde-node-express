@@ -12,7 +12,6 @@
   "homepage": "https://kinde.com",
   "license": "MIT",
   "scripts": {
-    "prepare": "husky install",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint-staged": "lint-staged",
