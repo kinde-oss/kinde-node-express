@@ -6,17 +6,20 @@ import express from 'express';
  * Validates request query parameters for login, regsister and createOrg URLs.
  *
  * @param {object} requestQuery
+ * @returns {Error | null}
  */
 export const validateQueryParams = (requestQuery) => {
   const queryParams = ['org_name', 'org_code'];
-  queryParams.forEach((param) => {
+  for (const param of queryParams) {
     const value = requestQuery[param];
     if (value !== undefined) {
       if (!value || typeof value !== 'string') {
-        throw new Error(`Provided param '${param}' has invalid value '${value}'`);
+        const message = `Provided param '${param}' has invalid value '${value}'`;
+        return new Error(message);
       }
     }
-  });
+  }
+  return null;
 };
 
 /**
@@ -24,10 +27,16 @@ export const validateQueryParams = (requestQuery) => {
  *
  * @param {import('express').Request} req - The Express request object.
  * @param {import('express').Response} res - The Express response object.
+ * @param {import('express').NextFunction} next - The Express next function.
  * @returns {Promise<void>}
  */
-const handleLogin = async (req, res) => {
-  validateQueryParams(req.query);
+const handleLogin = async (req, res, next) => {
+  const error = validateQueryParams(req.query);
+  if (error !== null) {
+    res.status(400);
+    return next(error);
+  }
+
   const client = getInternalClient();
   const loginURL = await client.login(req, req.query);
   res.redirect(loginURL);
@@ -38,10 +47,16 @@ const handleLogin = async (req, res) => {
  *
  * @param {import('express').Request} req - The Express request object.
  * @param {import('express').Response} res - The Express response object.
+ * @param {import('express').NextFunction} next - The Express next function.
  * @returns {Promise<void>}
  */
-const handleRegister = async (req, res) => {
-  validateQueryParams(req.query);
+const handleRegister = async (req, res, next) => {
+  const error = validateQueryParams(req.query);
+  if (error !== null) {
+    res.status(400);
+    return next(error);
+  }
+
   const client = getInternalClient();
   const registerURL = await client.register(req, req.query);
   res.redirect(registerURL);

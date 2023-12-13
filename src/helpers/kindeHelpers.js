@@ -50,10 +50,16 @@ export const getUserProfile = async (req) => {
  *
  * @param {import('express').Request} req
  * @param {import('express').Response} res
+ * @param {import('express').NextFunction} next
  * @returns {Promise<URL>} required createOrg authorization URL
  */
-export const createOrg = async (req, res) => {
-  validateQueryParams(req.query);
+export const createOrg = async (req, res, next) => {
+  const error = validateQueryParams(req.query);
+  if (error !== null) {
+    res.status(400);
+    return next(error);
+  }
+
   const { createOrg } = getInternalClient();
   const createOrgURL = await createOrg(req, req.query);
   res.redirect(createOrgURL);
