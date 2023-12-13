@@ -19,7 +19,7 @@
     "prettier:write": "prettier --write .",
     "format": "npm run lint:fix && npm run prettier:write",
     "build": "genversion --es6 --semi ./src/version.js && rollup -c",
-    "test": "echo \"no tests found \" && exit 0"
+    "test": "jest --passWithNoTests ."
   },
   "author": {
     "name": "Kinde",
@@ -27,18 +27,23 @@
     "url": "https://kinde.com"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.6",
+    "@babel/preset-env": "^7.23.6",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.0.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
-    "eslint": "^8.8.0",
+    "eslint": "^8.55.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^27.6.0",
     "eslint-plugin-prettier": "^5.0.1",
     "genversion": "^3.1.1",
     "husky": "^8.0.3",
+    "jest": "^29.7.0",
     "lint-staged": "^15.2.0",
     "nodemon": "^2.0.15",
     "prettier": "^3.1.0",
-    "rollup": "^2.74.1"
+    "rollup": "^2.74.1",
+    "supertest": "^6.3.3"
   },
   "keywords": [
     "Kinde",
