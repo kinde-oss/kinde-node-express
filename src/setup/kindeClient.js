@@ -6,6 +6,7 @@ import { version as frameworkSDKVersion } from '../version';
  * @property {import('@kinde-oss/kinde-typescript-sdk').GrantType} grantType
  * @property {string} issuerBaseUrl
  * @property {string} redirectUrl
+ * @property {string} postLogoutRedirectUrl
  * @property {string} siteUrl
  * @property {string} secret
  * @property {string} unAuthorisedUrl
@@ -64,6 +65,7 @@ export const validateInitialConfig = (config) => {
     'grantType',
     'issuerBaseUrl',
     'redirectUrl',
+    'postLogoutRedirectUrl',
     'siteUrl',
     'secret',
     'unAuthorisedUrl',
@@ -90,8 +92,15 @@ export const validateInitialConfig = (config) => {
  * @returns{import('@kinde-oss/kinde-typescript-sdk').ACClient}
  */
 export const setupInternalClient = (config) => {
-  const { issuerBaseUrl, redirectUrl, siteUrl, audience, scope, secret, clientId } =
-    config;
+  const {
+    issuerBaseUrl,
+    redirectUrl,
+    postLogoutRedirectUrl,
+    audience,
+    scope,
+    secret,
+    clientId,
+  } = config;
 
   initialConfig = validateInitialConfig(config);
   internalClient = createKindeServerClient(initialConfig.grantType, {
@@ -99,7 +108,7 @@ export const setupInternalClient = (config) => {
     redirectURL: redirectUrl,
     clientId: clientId ?? 'reg@live',
     clientSecret: secret,
-    logoutRedirectURL: siteUrl,
+    logoutRedirectURL: postLogoutRedirectUrl,
     audience: audience ?? undefined,
     scope: scope ?? 'openid profile email',
     framework: 'ExpressJS',

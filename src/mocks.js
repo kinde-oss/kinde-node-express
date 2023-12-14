@@ -9,6 +9,7 @@ export const mockClientConfig = {
   siteUrl: 'https://mockapp.com',
   unAuthorisedUrl: 'https://mockapp.com/unauthorised',
   redirectUrl: 'https://mockapp.com/kinde_callback',
+  postLogoutRedirectUrl: 'https://mockapp.com',
   scope: 'openid profile email',
 };
 
