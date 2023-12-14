@@ -5,6 +5,7 @@ import { nodeResolve as resolve } from '@rollup/plugin-node-resolve';
 export default {
   input: 'src/index.js',
   plugins: [resolve(), commonjs(), json()],
+  external: ['src/mocks.js', 'src/**/*.(spec|test).js'],
   output: [
     {
       dir: 'dist/esm',
