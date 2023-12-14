@@ -5,6 +5,7 @@ import { version as frameworkSDKVersion } from '../version';
  * @typedef {Object} SetupConfig
  * @property {import('@kinde-oss/kinde-typescript-sdk').GrantType} grantType
  * @property {string} issuerBaseUrl
+ * @property {string} redirectUrl
  * @property {string} siteUrl
  * @property {string} secret
  * @property {string} unAuthorisedUrl
@@ -62,6 +63,7 @@ export const validateInitialConfig = (config) => {
   const configParams = [
     'grantType',
     'issuerBaseUrl',
+    'redirectUrl',
     'siteUrl',
     'secret',
     'unAuthorisedUrl',
@@ -88,12 +90,13 @@ export const validateInitialConfig = (config) => {
  * @returns{import('@kinde-oss/kinde-typescript-sdk').ACClient}
  */
 export const setupInternalClient = (config) => {
-  const { issuerBaseUrl, siteUrl, audience, scope, secret, clientId } = config;
+  const { issuerBaseUrl, redirectUrl, siteUrl, audience, scope, secret, clientId } =
+    config;
 
   initialConfig = validateInitialConfig(config);
   internalClient = createKindeServerClient(initialConfig.grantType, {
     authDomain: issuerBaseUrl,
-    redirectURL: `${siteUrl}/kinde_callback`,
+    redirectURL: redirectUrl,
     clientId: clientId ?? 'reg@live',
     clientSecret: secret,
     logoutRedirectURL: siteUrl,

@@ -8,6 +8,7 @@ export const mockClientConfig = {
   issuerBaseUrl: 'https://mockdomain.kinde.com',
   siteUrl: 'https://mockapp.com',
   unAuthorisedUrl: 'https://mockapp.com/unauthorised',
+  redirectUrl: 'https://mockapp.com/kinde_callback',
   scope: 'openid profile email',
 };
 
@@ -16,7 +17,7 @@ export const getMockAuthURL = (paramOverrides = {}) => {
   const authURLSearchParams = new URLSearchParams({
     client_id: mockClientConfig.clientId,
     scope: mockClientConfig.scope,
-    redirect_uri: `${mockClientConfig.siteUrl}/kinde_callback`,
+    redirect_uri: mockClientConfig.redirectUrl,
     response_type: 'code',
     state: 'ec780ca2734867827259c63d24774eb5e557ebd695d00ce2d434fddc',
     ...paramOverrides,
