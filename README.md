@@ -1,4 +1,4 @@
-# Kinde ExpressJS
+# Kinde ExpressJS SDK
 
 The Kinde SDK for ExpressJS.
 
