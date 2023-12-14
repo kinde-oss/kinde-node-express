@@ -3,6 +3,18 @@ import { getRequestURL } from '../utils';
 import express from 'express';
 
 /**
+ * Extracts the redirect route from the redirectUrl provided as part of the
+ * initial client configuration.
+ *
+ * @returns {string}
+ */
+export const getRedirectRoute = () => {
+  const { redirectUrl } = getInitialConfig();
+  const redirectURL = new URL(redirectUrl);
+  return redirectURL.pathname;
+};
+
+/**
  * Validates request query parameters for login, regsister and createOrg URLs.
  *
  * @param {object} requestQuery
@@ -102,10 +114,11 @@ const handleCallback = async (req, res) => {
  * @returns {import('express').Router}
  */
 export const getAuthRouter = () => {
+  const redirectRoute = getRedirectRoute();
   const router = express.Router();
   router.get('/login', handleLogin);
   router.get('/logout', handleLogout);
   router.get('/register', handleRegister);
-  router.get('/kinde_callback', handleCallback);
+  router.get(redirectRoute, handleCallback);
   return router;
 };
