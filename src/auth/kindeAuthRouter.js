@@ -9,7 +9,7 @@ import express from 'express';
  * @returns {Error | null}
  */
 export const validateQueryParams = (requestQuery) => {
-  const queryParams = ['org_name', 'org_code'];
+  const queryParams = ['org_code'];
   for (const param of queryParams) {
     const value = requestQuery[param];
     if (value !== undefined) {

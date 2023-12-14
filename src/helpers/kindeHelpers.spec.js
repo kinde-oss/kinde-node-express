@@ -27,14 +27,12 @@ describe('kindeHelpers', () => {
       expect(response.headers.location).toBe(createOrgURL.toString());
     });
 
-    it('raises exception if optional organization params are invalid', () => {
-      ['org_code', 'org_name'].forEach(async (param) => {
-        const query = { [param]: '' };
-        const response = await request(app).get('/create_org').query(query);
-        expect(response.status).toBe(400);
-        expect(response.text).toContain(param);
-        expect(response.text).toContain('invalid value');
-      });
+    it('raises exception if optional organization code is invalid', async () => {
+      const query = { org_code: '' };
+      const response = await request(app).get('/create_org').query(query);
+      expect(response.status).toBe(400);
+      expect(response.text).toContain('org_code');
+      expect(response.text).toContain('invalid value');
     });
   });
 });
