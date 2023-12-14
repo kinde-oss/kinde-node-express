@@ -1,5 +1,6 @@
 import { default as authUtils } from '@kinde-oss/kinde-node-auth-utils';
 import { getInitialConfig, getInternalClient } from '../setup';
+import { JwtRsaVerifier } from 'aws-jwt-verify';
 import { catchError } from '../utils';
 
 const { authToken, getPem } = authUtils;
@@ -42,4 +43,36 @@ export const protectRoute = async (req, res, next) => {
   const pem = await getPem(config.issuerBaseUrl);
   const parsedToken = await kindeClient.getToken(req);
   authToken(parsedToken, pem, callbackFn);
+};
+
+/**
+ * Custom JWT verifier as middleware, for verifying integrity of JWT bearer
+ * tokens in authorization headers.
+ *
+ * @param {string} issuer - issuerBaseUrl
+ * @param {object} options
+ * @returns
+ */
+export const jwtVerify = (issuer, options = {}) => {
+  const { audience } = options;
+  const verifier = JwtRsaVerifier.create({
+    issuer,
+    audience: audience || null,
+    jwksUri: `${issuer}/.well-known/jwks.json`,
+  });
+
+  return async (req, res, next) => {
+    try {
+      const authHeader = req.headers.authorization;
+      const token = authHeader && authHeader.split(' ')[1];
+      const payload = await verifier.verify(token);
+      console.log('Token is valid');
+      req.user = { id: payload.sub };
+      next();
+    } catch (err) {
+      console.log('Token not valid!');
+      console.log(err);
+      return res.sendStatus(403);
+    }
+  };
 };
