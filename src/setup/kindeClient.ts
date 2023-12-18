@@ -13,22 +13,37 @@ import { version as frameworkSDKVersion } from '../version';
  * @property {string | undefined} redirectUrl
  * @property {string | undefined} scope
  * @property {string | undefined} audience
- * /
+ */
+
+export type SetupConfig = {
+  grantType: GrantType;
+  issuerBaseUrl: string;
+  redirectUrl: string;
+  postLogoutRedirectUrl: string;
+  siteUrl: string;
+  secret: string;
+  unAuthorisedUrl: string;
+  clientId: string;
+  scope?: string;
+  audience?: string;
+};
+
+type ClientType = ReturnType<typeof createKindeServerClient>;
 
 /**
  * @type{SetupConfig}
  */
-let initialConfig;
+let initialConfig: SetupConfig;
 
 /**
  * @type{import('@kinde-oss/kinde-typescript-sdk').ACClient}
  */
-let internalClient;
+let internalClient: ClientType;
 
 /**
  * @type{string[]}
  */
-const commonConfigParams = [
+const commonConfigParams: string[] = [
   'grantType',
   'issuerBaseUrl',
   'postLogoutRedirectUrl',
@@ -39,7 +54,7 @@ const commonConfigParams = [
 /**
  * @type{object}
  */
-const grantTypeConfigParams = {
+const grantTypeConfigParams: { [k: string]: string[] } = {
   [GrantType.CLIENT_CREDENTIALS]: ['secret'],
   [GrantType.AUTHORIZATION_CODE]: ['secret', 'redirectUrl', 'unAuthorisedUrl'],
   [GrantType.PKCE]: ['redirectUrl', 'unAuthorisedUrl'],
@@ -51,7 +66,7 @@ const grantTypeConfigParams = {
  *
  * @returns {SetupConfig}
  */
-export const getInitialConfig = () => {
+export const getInitialConfig = (): SetupConfig => {
   if (initialConfig === undefined) {
     throw new Error('Initial config is not initialized');
   } else {
@@ -65,7 +80,7 @@ export const getInitialConfig = () => {
  *
  * @returns{import('@kinde-oss/kinde-typescript-sdk').ACClient}
  */
-export const getInternalClient = () => {
+export const getInternalClient = (): typeof internalClient => {
   if (internalClient === undefined) {
     throw new Error('Internal Kinde server client is not initialized');
   } else {
@@ -80,7 +95,7 @@ export const getInternalClient = () => {
  * @param {SetupConfig} config
  * @returns {SetupConfig}
  */
-export const validateInitialConfig = (config) => {
+export const validateInitialConfig = (config: SetupConfig): SetupConfig => {
   const grantTypeParams = grantTypeConfigParams[config.grantType];
   if (!grantTypeParams) {
     const types = Object.values(GrantType).join(', ');
@@ -88,9 +103,8 @@ export const validateInitialConfig = (config) => {
   }
 
   const configParams = [...commonConfigParams, ...grantTypeParams];
-
   configParams.forEach((param) => {
-    const value = config[param];
+    const value = (config as Record<string, string>)[param];
     if (!value || typeof value !== 'string') {
       throw new Error(
         `Required config parameter '${param}' has invalid value ${value}`
@@ -108,7 +122,7 @@ export const validateInitialConfig = (config) => {
  * @param {SetupConfig} config
  * @returns{import('@kinde-oss/kinde-typescript-sdk').ACClient}
  */
-export const setupInternalClient = (config) => {
+export const setupInternalClient = (config: SetupConfig): typeof internalClient => {
   const {
     issuerBaseUrl,
     redirectUrl,

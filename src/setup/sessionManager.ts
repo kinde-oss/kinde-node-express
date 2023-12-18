@@ -1,15 +1,16 @@
-import { randomString } from '../utils';
-import session from 'express-session';
+import { ExpressMiddleware, randomString } from '../utils';
+import type { Express, Request, Response, NextFunction } from 'express';
+import session, { type SessionOptions } from 'express-session';
 
 /**
  * @type{number}
  */
-const SESSION_MAX_AGE = 1000 * 60 * 60 * 24;
+const SESSION_MAX_AGE: number = 1000 * 60 * 60 * 24;
 
 /**
  * @type{session.SessionOptions}
  */
-const sessionConfig = {
+const sessionConfig: SessionOptions = {
   secret: randomString(),
   saveUninitialized: true,
   cookie: { maxAge: SESSION_MAX_AGE },
@@ -23,8 +24,8 @@ const sessionConfig = {
  *
  * @returns {import('../utils').ExpressMiddleware}
  */
-const getSessionManager = () => {
-  return (req, _, next) => {
+const getSessionManager = (): ExpressMiddleware<void> => {
+  return (req: Request, _: Response, next: NextFunction) => {
     req.setSessionItem = async (itemKey, itemValue) => {
       req.session[itemKey] = itemValue;
     };
@@ -35,7 +36,7 @@ const getSessionManager = () => {
       delete req.session[itemKey];
     };
     req.destroySession = async () => {
-      req.session.destroy();
+      req.session.destroy((e) => console.log(e));
     };
     next();
   };
@@ -46,7 +47,7 @@ const getSessionManager = () => {
  * typescript SDK (in middleware form).
  * @param {import('express').Express} app
  */
-export const setupKindeSession = (app) => {
+export const setupKindeSession = (app: Express): void => {
   app.use(session(sessionConfig));
   app.use(getSessionManager());
 };
