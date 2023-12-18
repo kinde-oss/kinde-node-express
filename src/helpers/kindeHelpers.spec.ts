@@ -1,4 +1,5 @@
 import { setupKindeMock, getMockAuthURL } from '../mocks';
+import type { ACClient } from '@kinde-oss/kinde-typescript-sdk';
 import { createOrg } from './kindeHelpers';
 import { getInternalClient } from '../setup';
 import request from 'supertest';
@@ -8,7 +9,7 @@ describe('kindeHelpers', () => {
 
   describe('createOrg()', () => {
     const internalClient = getInternalClient();
-    const handleCreateOrgMock = jest.spyOn(internalClient, 'createOrg');
+    const handleCreateOrgMock = jest.spyOn(internalClient as ACClient, 'createOrg');
 
     beforeAll(() => {
       app.get('/create_org', createOrg);

@@ -1,4 +1,5 @@
 import { getInternalClient } from '../setup';
+import type { ACClient } from '@kinde-oss/kinde-typescript-sdk';
 import {
   setupKindeMock,
   mockClientConfig as mockConfig,
@@ -11,7 +12,7 @@ describe('kindeAuthRouter', () => {
 
   describe('handleRegister()', () => {
     const internalClient = getInternalClient();
-    const registerMock = jest.spyOn(internalClient, 'register');
+    const registerMock = jest.spyOn(internalClient as ACClient, 'register');
 
     afterEach(() => {
       registerMock.mockClear();
@@ -35,7 +36,7 @@ describe('kindeAuthRouter', () => {
   });
   describe('handleLogin()', () => {
     const internalClient = getInternalClient();
-    const loginMock = jest.spyOn(internalClient, 'login');
+    const loginMock = jest.spyOn(internalClient as ACClient, 'login');
 
     afterEach(() => {
       loginMock.mockClear();
@@ -60,7 +61,10 @@ describe('kindeAuthRouter', () => {
 
   describe('handleCallback()', () => {
     const internalClient = getInternalClient();
-    const redirectToAppMock = jest.spyOn(internalClient, 'handleRedirectToApp');
+    const redirectToAppMock = jest.spyOn(
+      internalClient as ACClient,
+      'handleRedirectToApp'
+    );
 
     afterEach(() => {
       redirectToAppMock.mockClear();
