@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import type { Request, Response, NextFunction } from 'express';
 
 /**
  * @typedef {Function} ExpressMiddleware
@@ -6,15 +7,14 @@ import crypto from 'crypto';
  * @param {import('express').Request} req - The Express request object.
  * @param {import('express').Response} res - The Express response object.
  * @param {import('express').NextFunction} next - The next middleware function in the stack.
- * @returns {void}
+ * @returns {T}
  */
 
-/**
- * @typedef {Function} ExpressHandler
- * @param {import('express').Request} req - The Express request object.
- * @param {import('express').Response} res - The Express response object.
- * @returns {void}
- */
+export type ExpressMiddleware<T> = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => T;
 
 /**
  * Returns a randomly generated string, utilised for producing secret used for
@@ -22,7 +22,7 @@ import crypto from 'crypto';
  *
  * @returns {string}
  */
-export const randomString = () => {
+export const randomString = (): string => {
   return crypto.randomBytes(28).toString('hex');
 };
 
@@ -33,7 +33,7 @@ export const randomString = () => {
  * @param {import('express').Request} req
  * @returns {URL}
  */
-export const getRequestURL = (req) => {
+export const getRequestURL = (req: Request): URL => {
   const host = req.get('host');
   return new URL(`${req.protocol}://${host}${req.originalUrl}`);
 };
@@ -45,10 +45,12 @@ export const getRequestURL = (req) => {
  * @param {ExpressMiddleware} handler
  * @returns {ExpressMiddleware}
  */
-export const catchError = (handler) => {
-  return (req, res, next) => {
+export const catchError = (
+  handler: ExpressMiddleware<Promise<void>>
+): ExpressMiddleware<void> => {
+  return (req: Request, res: Response, next: NextFunction): void => {
     const onSuccess = () => next();
-    const onFailure = (error) => next(error);
+    const onFailure = (error: Error) => next(error);
     handler(req, res, next).then(onSuccess, onFailure);
   };
 };

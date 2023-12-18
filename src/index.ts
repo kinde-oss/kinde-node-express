@@ -1,6 +1,7 @@
 import { managementApi, GrantType } from '@kinde-oss/kinde-typescript-sdk';
-import { getInternalClient, setupInternalClient } from './setup';
+import { type SetupConfig, getInternalClient, setupInternalClient } from './setup';
 import { setupAuthRouter } from './auth';
+import type { Express } from 'express';
 
 export * from './helpers';
 export { managementApi, GrantType };
@@ -13,7 +14,7 @@ export { managementApi, GrantType };
  * @param {import('express').Express} app
  * @param {import('./kindeClient').SetupConfig} config
  */
-export const setupKinde = (config, app) => {
+export const setupKinde = async (config: SetupConfig, app: Express) => {
   setupInternalClient(app, config);
   setupAuthRouter(app, '/');
   return getInternalClient();
