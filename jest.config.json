@@ -1,7 +1,0 @@
-{
-  "testEnvironment": "node",
-  "roots": ["<rootDir>/src"],
-  "testMatch": ["**/?(*.)+(spec|test).js"],
-  "moduleFileExtensions": ["js", "json"],
-  "verbose": true
-}
