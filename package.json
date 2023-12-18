@@ -18,7 +18,7 @@
     "prettier": "prettier -c .",
     "prettier:write": "prettier --write .",
     "format": "npm run lint:fix && npm run prettier:write",
-    "build": "genversion --es6 --semi ./src/version.js && rollup -c",
+    "build": "genversion --es6 --semi ./src/version.js && tsc",
     "test": "jest --passWithNoTests ."
   },
   "author": {
@@ -32,6 +32,7 @@
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.0.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
+    "@tsconfig/node19": "^19.1.2",
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^27.6.0",
@@ -43,7 +44,8 @@
     "nodemon": "^2.0.15",
     "prettier": "^3.1.0",
     "rollup": "^2.74.1",
-    "supertest": "^6.3.3"
+    "supertest": "^6.3.3",
+    "typescript": "^5.3.3"
   },
   "keywords": [
     "Kinde",
