@@ -2,14 +2,8 @@ import { ExpressMiddleware, randomString } from '../utils';
 import type { Express, Request, Response, NextFunction } from 'express';
 import session, { type SessionOptions } from 'express-session';
 
-/**
- * @type{number}
- */
 const SESSION_MAX_AGE: number = 1000 * 60 * 60 * 24;
 
-/**
- * @type{session.SessionOptions}
- */
 const sessionConfig: SessionOptions = {
   secret: randomString(),
   saveUninitialized: true,
@@ -22,7 +16,7 @@ const sessionConfig: SessionOptions = {
  * as an express middleware, with the assumption that `express-session` package
  * middleware has already been configured.
  *
- * @returns {import('../utils').ExpressMiddleware}
+ * @returns {ExpressMiddleware}
  */
 const getSessionManager = (): ExpressMiddleware<void> => {
   return (req: Request, _: Response, next: NextFunction) => {
@@ -45,7 +39,7 @@ const getSessionManager = (): ExpressMiddleware<void> => {
 /**
  * Attaches the `express-session` middleware and the `SessionManager` for internal
  * typescript SDK (in middleware form).
- * @param {import('express').Express} app
+ * @param {Express} app
  */
 export const setupKindeSession = (app: Express): void => {
   app.use(session(sessionConfig));

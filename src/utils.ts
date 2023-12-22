@@ -4,9 +4,9 @@ import type { Request, Response, NextFunction } from 'express';
 /**
  * @typedef {Function} ExpressMiddleware
  * @description This middleware logs information about the incoming request.
- * @param {import('express').Request} req - The Express request object.
- * @param {import('express').Response} res - The Express response object.
- * @param {import('express').NextFunction} next - The next middleware function in the stack.
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object.
+ * @param {NextFunction} next - The next middleware function in the stack.
  * @returns {T}
  */
 
@@ -30,7 +30,7 @@ export const randomString = (): string => {
  * Returns the complete URL including host and any query parameters corresponding
  * to the provided request instance.
  *
- * @param {import('express').Request} req
+ * @param {Request} req
  * @returns {URL}
  */
 export const getRequestURL = (req: Request): URL => {

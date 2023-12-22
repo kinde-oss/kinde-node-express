@@ -12,8 +12,8 @@ export * from './kindeSetupTypes';
  * client, setting up its session manager interface and attaching session
  * manager to provided express instance.
  *
- * @param {import('express').Express} app
- * @param {import('./setupTypes').SetupConfig} config
+ * @param {Express} app
+ * @param {SetupConfig} config
  */
 export const setupInternalClient = <G extends GrantType>(
   app: Express,

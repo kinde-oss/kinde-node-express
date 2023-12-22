@@ -1,10 +1,6 @@
-import { getInternalClient } from '../setup';
-import type { ACClient } from '@kinde-oss/kinde-typescript-sdk';
-import {
-  setupKindeMock,
-  mockClientConfig as mockConfig,
-  getMockAuthURL,
-} from '../mocks';
+import { setupKindeMock, mockClientConfig, getMockAuthURL } from '../mocks';
+import { getInternalClient, type ClientType } from '../setup';
+import type { GrantType } from '@kinde-oss/kinde-typescript-sdk';
 import request from 'supertest';
 
 describe('kindeAuthRouter', () => {
@@ -12,7 +8,10 @@ describe('kindeAuthRouter', () => {
 
   describe('handleRegister()', () => {
     const internalClient = getInternalClient();
-    const registerMock = jest.spyOn(internalClient as ACClient, 'register');
+    const registerMock = jest.spyOn(
+      internalClient as ClientType<GrantType.AUTHORIZATION_CODE>,
+      'register'
+    );
 
     afterEach(() => {
       registerMock.mockClear();
@@ -36,7 +35,10 @@ describe('kindeAuthRouter', () => {
   });
   describe('handleLogin()', () => {
     const internalClient = getInternalClient();
-    const loginMock = jest.spyOn(internalClient as ACClient, 'login');
+    const loginMock = jest.spyOn(
+      internalClient as ClientType<GrantType.AUTHORIZATION_CODE>,
+      'login'
+    );
 
     afterEach(() => {
       loginMock.mockClear();
@@ -62,7 +64,7 @@ describe('kindeAuthRouter', () => {
   describe('handleCallback()', () => {
     const internalClient = getInternalClient();
     const redirectToAppMock = jest.spyOn(
-      internalClient as ACClient,
+      internalClient as ClientType<GrantType.AUTHORIZATION_CODE>,
       'handleRedirectToApp'
     );
 
@@ -75,14 +77,14 @@ describe('kindeAuthRouter', () => {
       const response = await request(app).get('/kinde_callback');
       expect(response.status).toBe(302);
       expect(redirectToAppMock).toHaveBeenCalledTimes(1);
-      expect(response.headers.location).toBe(mockConfig.siteUrl);
+      expect(response.headers.location).toBe(mockClientConfig.siteUrl);
     });
 
     it('redirects to unAuthorisedUrl if internal client fails to handle redirection', async () => {
       redirectToAppMock.mockRejectedValue(new Error('error'));
       const response = await request(app).get('/kinde_callback');
       expect(response.status).toBe(302);
-      expect(response.headers.location).toBe(mockConfig.unAuthorisedUrl);
+      expect(response.headers.location).toBe(mockClientConfig.unAuthorisedUrl);
     });
   });
 });

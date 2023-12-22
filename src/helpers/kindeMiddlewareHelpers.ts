@@ -1,31 +1,31 @@
 import { default as authUtils } from '@kinde-oss/kinde-node-auth-utils';
+import { GrantType } from '@kinde-oss/kinde-typescript-sdk';
 import { getInitialConfig, getInternalClient } from '../setup';
 import { ExpressMiddleware, catchError } from '../utils';
 import { JwtRsaVerifier } from 'aws-jwt-verify';
 import type { Request, Response, NextFunction } from 'express';
-import { ACClient } from '@kinde-oss/kinde-typescript-sdk';
 
 const { authToken, getPem } = authUtils;
 
 /**
  * Custom middleware fetches details for the authenticated user and attaches them
  * to the request object, available as `req.user` and having the following type
- * @type{import('@kinde-oss/kinde-typescript-sdk').UserType}.
+ * @type {UserType}.
  *
- * @param{import('../utils').ExpressMiddleware}
+ * @param {ExpressMiddleware}
  */
 export const getUser: ExpressMiddleware<void> = catchError(async (req) => {
-  const kindeClient = getInternalClient();
-  const userProfile = await (kindeClient as ACClient).getUserProfile(req);
+  const kindeClient = getInternalClient<GrantType.AUTHORIZATION_CODE>();
+  const userProfile = await kindeClient.getUserProfile(req);
   req.user = userProfile;
 });
 
 /** * Custom middleware determines if the user is authenticated or not if so proceeds
  * to next middleware otherwise redirects to `unAuthorisedUrl` with 403 staus.
  *
- * @param {import('express').Request} req
- * @param {import('express').Response} res
- * @param {import('express').NextFunction} next
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
  * @returns {Promise<void>}
  */
 export const protectRoute = async (
@@ -33,7 +33,7 @@ export const protectRoute = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { unAuthorisedUrl } = getInitialConfig();
+  const { unAuthorisedUrl } = getInitialConfig<GrantType.PKCE>();
   const kindeClient = getInternalClient();
   if (!(await kindeClient.isAuthenticated(req))) {
     return res.status(403).redirect(unAuthorisedUrl);

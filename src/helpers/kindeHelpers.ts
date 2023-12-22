@@ -7,9 +7,9 @@ import { getInternalClient } from '../setup';
  * Function uses internal SDK to return registration url with the `is_create_org`
  * query param set to true.
  *
- * @param {import('express').Request} req
- * @param {import('express').Response} res
- * @param {import('express').NextFunction} next
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
  * @returns {Promise<void>}
  */
 export const createOrg = async (
