@@ -1,12 +1,11 @@
 import { setupKindeSession } from './sessionManager';
+import { setupInternalClient as setupKindeClient } from './kindeClient';
+import { type GrantType } from '@kinde-oss/kinde-typescript-sdk';
+import { type SetupConfig } from './kindeSetupTypes';
 import type { Express } from 'express';
-import {
-  setupInternalClient as setupKindeClient,
-  type SetupConfig,
-} from './kindeClient';
 
 export { getInternalClient, getInitialConfig } from './kindeClient';
-export { type SetupConfig };
+export * from './kindeSetupTypes';
 
 /**
  * Encapsulates Kinde setup of creatint creating internal TypeScript SDK
@@ -14,9 +13,12 @@ export { type SetupConfig };
  * manager to provided express instance.
  *
  * @param {import('express').Express} app
- * @param {import('./kindeClient').SetupConfig} config
+ * @param {import('./setupTypes').SetupConfig} config
  */
-export const setupInternalClient = (app: Express, config: SetupConfig): void => {
+export const setupInternalClient = <G extends GrantType>(
+  app: Express,
+  config: SetupConfig<G>
+): void => {
   setupKindeSession(app);
   setupKindeClient(config);
 };
