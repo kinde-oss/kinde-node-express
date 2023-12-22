@@ -1,16 +1,16 @@
-import { createKindeServerClient } from '@kinde-oss/kinde-typescript-sdk';
+import { GrantType, createKindeServerClient } from '@kinde-oss/kinde-typescript-sdk';
 import { version as frameworkSDKVersion } from '../version';
 
 /**
  * @typedef {Object} SetupConfig
  * @property {import('@kinde-oss/kinde-typescript-sdk').GrantType} grantType
  * @property {string} issuerBaseUrl
- * @property {string} redirectUrl
  * @property {string} postLogoutRedirectUrl
  * @property {string} siteUrl
- * @property {string} secret
- * @property {string} unAuthorisedUrl
  * @property {string} clientId
+ * @property {string | undefined} secret
+ * @property {string | undefined} unAuthorisedUrl
+ * @property {string | undefined} redirectUrl
  * @property {string | undefined} scope
  * @property {string | undefined} audience
  * /
@@ -24,6 +24,26 @@ let initialConfig;
  * @type{import('@kinde-oss/kinde-typescript-sdk').ACClient}
  */
 let internalClient;
+
+/**
+ * @type{string[]}
+ */
+const commonConfigParams = [
+  'grantType',
+  'issuerBaseUrl',
+  'postLogoutRedirectUrl',
+  'siteUrl',
+  'clientId',
+];
+
+/**
+ * @type{object}
+ */
+const grantTypeConfigParams = {
+  [GrantType.CLIENT_CREDENTIALS]: ['secret'],
+  [GrantType.AUTHORIZATION_CODE]: ['secret', 'redirectUrl', 'unAuthorisedUrl'],
+  [GrantType.PKCE]: ['redirectUrl', 'unAuthorisedUrl'],
+};
 
 /**
  * Returns the above `initialConfig` private to this module, throws an exception if
@@ -61,16 +81,13 @@ export const getInternalClient = () => {
  * @returns {SetupConfig}
  */
 export const validateInitialConfig = (config) => {
-  const configParams = [
-    'grantType',
-    'issuerBaseUrl',
-    'redirectUrl',
-    'postLogoutRedirectUrl',
-    'siteUrl',
-    'secret',
-    'unAuthorisedUrl',
-    'clientId',
-  ];
+  const grantTypeParams = grantTypeConfigParams[config.grantType];
+  if (!grantTypeParams) {
+    const types = Object.values(GrantType).join(', ');
+    throw new Error(`Provided grant type must be one of ${types}`);
+  }
+
+  const configParams = [...commonConfigParams, ...grantTypeParams];
 
   configParams.forEach((param) => {
     const value = config[param];
