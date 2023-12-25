@@ -2,10 +2,11 @@
   "extends": "@tsconfig/node19/tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
+    "module": "esnext",
+    "moduleResolution": "node",
     "declarationDir": "./dist/types",
-    "declaration": true,
-    "allowJs": true
+    "declaration": true
   },
   "include": ["src"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "tsconfig.cjs.json"]
 }
