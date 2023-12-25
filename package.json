@@ -3,7 +3,20 @@
   "version": "1.2.0",
   "description": "Kinde SDK for traditional Node.js Express web apps that run on the server",
   "main": "dist-cjs/index.js",
-  "module": "dist-esm/index.js",
+  "module": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist-cjs/types/index.d.ts",
+        "default": "./dist-cjs/index.js"
+      },
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/kinde-oss/kinde-node-express"
