@@ -1,10 +1,16 @@
-import { managementApi, GrantType } from '@kinde-oss/kinde-typescript-sdk';
 import { type SetupConfig, getInternalClient, setupInternalClient } from './setup';
 import { setupAuthRouter } from './auth';
 import type { Express } from 'express';
 
+import {
+  managementApi,
+  GrantType,
+  ConfigurationParameters,
+  Configuration,
+} from '@kinde-oss/kinde-typescript-sdk';
+
 export * from './helpers';
-export { managementApi, GrantType };
+export { managementApi, GrantType, ConfigurationParameters, Configuration };
 
 /**
  * Encapsulates Kinde setup by completing creating internal TypeScript SDK
