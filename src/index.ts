@@ -20,7 +20,7 @@ export { managementApi, GrantType, ConfigurationParameters, Configuration };
  * @param {Express} app
  * @param {SetupConfig} config
  */
-export const setupKinde = async <G extends GrantType>(
+export const setupKinde = <G extends GrantType>(
   config: SetupConfig<G>,
   app: Express
 ) => {
