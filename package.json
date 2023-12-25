@@ -1,6 +1,6 @@
 {
   "name": "@kinde-oss/kinde-node-express",
-  "version": "1.0.12",
+  "version": "1.2.0",
   "description": "Kinde SDK for traditional Node.js Express web apps that run on the server",
   "main": "dist-cjs/index.js",
   "module": "dist-esm/index.js",
