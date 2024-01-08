@@ -110,7 +110,7 @@ export const setupInternalClient = <G extends GrantType>(
       clientSecret: secret,
       logoutRedirectURL: postLogoutRedirectUrl,
       audience: audience ?? undefined,
-      scope: scope ?? 'openid profile email',
+      scope: scope ?? undefined,
       framework: 'ExpressJS',
       frameworkVersion: frameworkSDKVersion,
     } as ClientOptions<G>
