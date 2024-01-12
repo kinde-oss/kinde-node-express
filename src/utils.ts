@@ -37,20 +37,3 @@ export const getRequestURL = (req: Request): URL => {
   const host = req.get('host');
   return new URL(`${req.protocol}://${host}${req.originalUrl}`);
 };
-
-/**
- * Executes provided express handler if exception occurs passes error to next
- * otherwise proceeds to next middleware.
- *
- * @param {ExpressMiddleware} handler
- * @returns {ExpressMiddleware}
- */
-export const catchError = (
-  handler: ExpressMiddleware<Promise<void>>
-): ExpressMiddleware<void> => {
-  return (req: Request, res: Response, next: NextFunction): void => {
-    const onSuccess = () => next();
-    const onFailure = (error: Error) => next(error);
-    handler(req, res, next).then(onSuccess, onFailure);
-  };
-};

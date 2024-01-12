@@ -1,7 +1,7 @@
 import { default as authUtils } from '@kinde-oss/kinde-node-auth-utils';
 import { GrantType } from '@kinde-oss/kinde-typescript-sdk';
 import { getInitialConfig, getInternalClient } from '../setup';
-import { ExpressMiddleware, catchError } from '../utils';
+import { ExpressMiddleware } from '../utils';
 import { JwtRsaVerifier } from 'aws-jwt-verify';
 import type { Request, Response, NextFunction } from 'express';
 
@@ -12,15 +12,29 @@ const { authToken, getPem } = authUtils;
  * to the request object, available as `req.user` and having the following type
  * @type {UserType}.
  *
- * @param {ExpressMiddleware}
+ * @param {Request}
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @returns {Promise<void>}
  */
-export const getUser: ExpressMiddleware<void> = catchError(async (req) => {
-  const kindeClient = getInternalClient<GrantType.AUTHORIZATION_CODE>();
-  const userProfile = await kindeClient.getUserProfile(req);
-  req.user = userProfile;
-});
+export const getUser = async (req: Request, res: Response, next: NextFunction) => {
+  const kindeClient = getInternalClient<GrantType.PKCE>();
+  if (!(await kindeClient.isAuthenticated(req))) {
+    const logoutURL = await kindeClient.logout(req);
+    return res.redirect(logoutURL.toString());
+  }
 
-/** * Custom middleware determines if the user is authenticated or not if so proceeds
+  try {
+    const userProfile = await kindeClient.getUserProfile(req);
+    req.user = userProfile;
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+};
+
+/**
+ * Custom middleware determines if the user is authenticated or not if so proceeds
  * to next middleware otherwise redirects to `unAuthorisedUrl` with 403 staus.
  *
  * @param {Request} req
@@ -33,10 +47,10 @@ export const protectRoute = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { unAuthorisedUrl } = getInitialConfig<GrantType.PKCE>();
   const kindeClient = getInternalClient();
   if (!(await kindeClient.isAuthenticated(req))) {
-    return res.status(403).redirect(unAuthorisedUrl);
+    const logoutURL = await kindeClient.logout(req);
+    return res.redirect(logoutURL.toString());
   }
 
   const callbackFn = (error: Error) => {
