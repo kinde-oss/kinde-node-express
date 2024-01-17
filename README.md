@@ -1,23 +1,27 @@
-# @kinde-oss/kinde-node-express
+# Kinde ExpressJS SDK
 
-Kinde SDK for traditional Node.js Express web apps that run on the server.
+The Kinde SDK for ExpressJS.
 
-Also includes a JWT verifier.
+You can also use the ExpressJS starter kit [here](https://github.com/kinde-starter-kits/expressjs-starter-kit).
 
-## Install
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com) [![Kinde Docs](https://img.shields.io/badge/Kinde-Docs-eee?style=flat-square)](https://kinde.com/docs/developer-tools) [![Kinde Community](https://img.shields.io/badge/Kinde-Community-eee?style=flat-square)](https://thekindecommunity.slack.com)
 
-Run the following command using npm:
+## Requirements
 
-```
-npm install @kinde-oss/kinde-node-express
-```
+Please note that this SDK requires that your Node version to be `>=19.x.x`.
 
-If you prefer Yarn, use this command instead:
+## Documentation
 
-```
-yarn add @kinde-oss/kinde-node-express
-```
+For details on integrating this SDK into your project, head over to the [Kinde docs](https://kinde.com/docs/) and see the [ExpressJS SDK](https://kinde.com/docs/developer-tools/express-sdk).
 
-## How to use
+## Publishing
 
-The easiest way to get up and going is to use our starter kit [https://github.com/kinde-starter-kits/node-express](https://github.com/kinde-starter-kits/node-express)
+The core team handles publishing.
+
+## Contributing
+
+Please refer to Kinde’s [contributing guidelines](https://github.com/kinde-oss/.github/blob/489e2ca9c3307c2b2e098a885e22f2239116394a/CONTRIBUTING.md).
+
+## License
+
+By contributing to Kinde, you agree that your contributions will be licensed under its MIT License.

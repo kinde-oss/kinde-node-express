@@ -1,4 +1,5 @@
 node_modules
 dist
+dist-cjs
 .DS_Store
 coverage
