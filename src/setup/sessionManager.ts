@@ -7,7 +7,13 @@ const SESSION_MAX_AGE: number = 1000 * 60 * 60 * 24;
 const sessionConfig: SessionOptions = {
   secret: randomString(),
   saveUninitialized: true,
-  cookie: { maxAge: SESSION_MAX_AGE },
+  cookie: { 
+    maxAge: SESSION_MAX_AGE,
+    sameSite: 'lax',
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+  },
   resave: false,
 };
 
