@@ -88,7 +88,6 @@ export const jwtVerify = (
       const authHeader = req.headers.authorization;
       const token = authHeader && authHeader.split(' ')[1];
       const payload = await verifier.verify(token);
-      console.log('Token is valid');
       // @ts-expect-error, preserving this behaviour owing to backward compatibility.
       req.user = { id: payload.sub };
       next();
