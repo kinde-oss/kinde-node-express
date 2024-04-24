@@ -79,7 +79,7 @@
   "dependencies": {
     "@kinde-oss/kinde-node-auth-utils": "^0.0.7",
     "@kinde-oss/kinde-typescript-sdk": "^2.8.0",
-    "aws-jwt-verify": "^3.2.0",
+    "aws-jwt-verify": "^3.4.0",
     "express": "^4.19.2",
     "express-session": "^1.18.0"
   }
