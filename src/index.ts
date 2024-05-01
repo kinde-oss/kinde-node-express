@@ -8,6 +8,7 @@ import {
   ConfigurationParameters,
   Configuration,
 } from '@kinde-oss/kinde-typescript-sdk';
+import session from 'express-session';
 
 export * from './helpers';
 export { managementApi, GrantType, ConfigurationParameters, Configuration };
@@ -22,9 +23,10 @@ export { managementApi, GrantType, ConfigurationParameters, Configuration };
  */
 export const setupKinde = <G extends GrantType>(
   config: SetupConfig<G>,
-  app: Express
+  app: Express,
+  sessionOptions?: session.SessionOptions
 ) => {
-  setupInternalClient(app, config);
+  setupInternalClient(app, config, sessionOptions);
   setupAuthRouter(app, '/');
   return getInternalClient();
 };

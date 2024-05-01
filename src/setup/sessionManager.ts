@@ -7,7 +7,7 @@ const SESSION_MAX_AGE: number = 1000 * 60 * 60 * 24;
 const sessionConfig: SessionOptions = {
   secret: randomString(),
   saveUninitialized: true,
-  cookie: { 
+  cookie: {
     maxAge: SESSION_MAX_AGE,
     sameSite: 'lax',
     httpOnly: true,
@@ -47,7 +47,10 @@ const getSessionManager = (): ExpressMiddleware<void> => {
  * typescript SDK (in middleware form).
  * @param {Express} app
  */
-export const setupKindeSession = (app: Express): void => {
-  app.use(session(sessionConfig));
+export const setupKindeSession = (
+  app: Express,
+  sessionOptions?: session.SessionOptions
+): void => {
+  app.use(session(sessionOptions ?? sessionConfig));
   app.use(getSessionManager());
 };

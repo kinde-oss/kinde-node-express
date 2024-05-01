@@ -3,6 +3,7 @@ import { setupInternalClient as setupKindeClient } from './kindeClient';
 import { type GrantType } from '@kinde-oss/kinde-typescript-sdk';
 import { type SetupConfig } from './kindeSetupTypes';
 import type { Express } from 'express';
+import session from 'express-session';
 
 export { getInternalClient, getInitialConfig } from './kindeClient';
 export * from './kindeSetupTypes';
@@ -17,8 +18,9 @@ export * from './kindeSetupTypes';
  */
 export const setupInternalClient = <G extends GrantType>(
   app: Express,
-  config: SetupConfig<G>
+  config: SetupConfig<G>,
+  sessionOptions?: session.SessionOptions
 ): void => {
-  setupKindeSession(app);
+  setupKindeSession(app, sessionOptions);
   setupKindeClient(config);
 };
