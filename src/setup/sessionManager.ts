@@ -42,12 +42,23 @@ const getSessionManager = (): ExpressMiddleware<void> => {
   };
 };
 
+const hasSessionMiddleware = (app: Express) => {
+  if (app._router && app._router.stack) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return app._router.stack.some((l: any) => l.name === 'session')
+  }
+  return false;
+}
+
+
 /**
  * Attaches the `express-session` middleware and the `SessionManager` for internal
  * typescript SDK (in middleware form).
  * @param {Express} app
  */
 export const setupKindeSession = (app: Express): void => {
-  app.use(session(sessionConfig));
+  if (!hasSessionMiddleware(app)) {
+    app.use(session(sessionConfig));
+  }
   app.use(getSessionManager());
 };
