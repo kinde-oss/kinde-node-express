@@ -5,9 +5,9 @@ import session, { type SessionOptions } from 'express-session';
 const SESSION_MAX_AGE: number = 1000 * 60 * 60 * 24;
 
 const sessionConfig: SessionOptions = {
-  secret: randomString(),
+  secret: process.env.SESSION_SECRET || randomString(),
   saveUninitialized: true,
-  cookie: { 
+  cookie: {
     maxAge: SESSION_MAX_AGE,
     sameSite: 'lax',
     httpOnly: true,
@@ -42,12 +42,22 @@ const getSessionManager = (): ExpressMiddleware<void> => {
   };
 };
 
+const hasSessionMiddleware = (app: Express) => {
+  if (app._router && app._router.stack) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return app._router.stack.some((l: any) => l.name === 'session');
+  }
+  return false;
+};
+
 /**
  * Attaches the `express-session` middleware and the `SessionManager` for internal
  * typescript SDK (in middleware form).
  * @param {Express} app
  */
 export const setupKindeSession = (app: Express): void => {
-  app.use(session(sessionConfig));
+  if (!hasSessionMiddleware(app)) {
+    app.use(session(sessionConfig));
+  }
   app.use(getSessionManager());
 };
