@@ -7,7 +7,7 @@ const SESSION_MAX_AGE: number = 1000 * 60 * 60 * 24;
 const sessionConfig: SessionOptions = {
   secret: randomString(),
   saveUninitialized: true,
-  cookie: { 
+  cookie: {
     maxAge: SESSION_MAX_AGE,
     sameSite: 'lax',
     httpOnly: true,
@@ -44,12 +44,11 @@ const getSessionManager = (): ExpressMiddleware<void> => {
 
 const hasSessionMiddleware = (app: Express) => {
   if (app._router && app._router.stack) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return app._router.stack.some((l: any) => l.name === 'session')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return app._router.stack.some((l: any) => l.name === 'session');
   }
   return false;
-}
-
+};
 
 /**
  * Attaches the `express-session` middleware and the `SessionManager` for internal
