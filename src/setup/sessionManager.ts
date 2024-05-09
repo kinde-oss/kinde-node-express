@@ -5,7 +5,7 @@ import session, { type SessionOptions } from 'express-session';
 const SESSION_MAX_AGE: number = 1000 * 60 * 60 * 24;
 
 const sessionConfig: SessionOptions = {
-  secret: randomString(),
+  secret: process.env.SESSION_SECRET || randomString(),
   saveUninitialized: true,
   cookie: {
     maxAge: SESSION_MAX_AGE,
