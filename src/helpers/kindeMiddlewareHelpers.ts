@@ -52,8 +52,11 @@ export const protectRoute = async (
   const { issuerBaseUrl } = getInitialConfig();
 
   if (req.headers.authorization) {
-    const token = req.header('Authorization')?.split(' ')[1] || "";
-    const validationResult: jwtValidationResponse = await validateToken({ token, domain: issuerBaseUrl });
+    const token = req.header('Authorization')?.split(' ')[1] || '';
+    const validationResult: jwtValidationResponse = await validateToken({
+      token,
+      domain: issuerBaseUrl,
+    });
 
     if (validationResult.valid) {
       req.setSessionItem('access_token', token);
@@ -61,10 +64,9 @@ export const protectRoute = async (
     } else {
       res.sendStatus(403);
       return;
-
-    } 
+    }
   }
-  
+
   if (!(await isAuthenticated(req))) {
     const logoutURL = await logout(req);
     return res.redirect(logoutURL.toString());
