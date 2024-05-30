@@ -52,7 +52,12 @@ export const protectRoute = async (
   const { issuerBaseUrl } = getInitialConfig();
 
   if (req.headers.authorization) {
-    const token = req.header('Authorization')?.split(' ')[1] || '';
+    const authHeader = req.header('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      res.sendStatus(401); // Unauthorized
+      return;
+    }
+    const token = authHeader.split(' ')[1];
     const validationResult: jwtValidationResponse = await validateToken({
       token,
       domain: issuerBaseUrl,
