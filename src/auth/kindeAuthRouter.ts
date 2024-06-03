@@ -1,7 +1,7 @@
 import { GrantType } from '@kinde-oss/kinde-typescript-sdk';
 import type { Request, Response, NextFunction, Router } from 'express';
-import { getRequestURL } from '../utils';
-import { getInitialConfig, getInternalClient } from '../setup';
+import { getRequestURL } from '../utils.js';
+import { getInitialConfig, getInternalClient } from '../setup/index.js';
 import type { ParsedQs } from 'qs';
 import express from 'express';
 

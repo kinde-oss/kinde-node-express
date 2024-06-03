@@ -1,7 +1,7 @@
 import type { GrantType } from '@kinde-oss/kinde-typescript-sdk';
-import { setupKindeMock, getMockAuthURL } from '../mocks';
-import { getInternalClient, type ClientType } from '../setup';
-import { createOrg } from './kindeHelpers';
+import { setupKindeMock, getMockAuthURL } from '../mocks.js';
+import { getInternalClient, type ClientType } from '../setup/index.js';
+import { createOrg } from './kindeHelpers.js';
 import request from 'supertest';
 
 describe('kindeHelpers', () => {

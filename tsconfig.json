@@ -1,12 +1,16 @@
 {
-  "extends": "@tsconfig/node19/tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "declarationDir": "./dist/types",
-    "declaration": true
+    "target": "ES2020",     
+    "module": "NodeNext",  
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true, 
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationDir": "dist/types", 
+    "outDir": "dist",
+    "allowSyntheticDefaultImports": true, 
+    "skipLibCheck": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "tsconfig.cjs.json"]
+  "exclude": ["node_modules", "dist"] 
 }

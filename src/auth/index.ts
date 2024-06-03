@@ -1,7 +1,7 @@
-import { getAuthRouter } from './kindeAuthRouter';
+import { getAuthRouter } from './kindeAuthRouter.js';
 import type { Express } from 'express';
 
-export { validateQueryParams } from './kindeAuthRouter';
+export { validateQueryParams } from './kindeAuthRouter.js';
 
 /**
  * Attaches auth router to provided express instance.

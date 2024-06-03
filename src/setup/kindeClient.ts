@@ -1,6 +1,6 @@
 import { GrantType, createKindeServerClient } from '@kinde-oss/kinde-typescript-sdk';
-import { SetupConfig, ClientType, ClientOptions } from './kindeSetupTypes';
-import { version as frameworkSDKVersion } from '../version';
+import { SetupConfig, ClientType, ClientOptions } from './kindeSetupTypes.js';
+import { version as frameworkSDKVersion } from '../version.js';
 
 let initialConfig: SetupConfig<GrantType>;
 let internalClient: ClientType<GrantType>;

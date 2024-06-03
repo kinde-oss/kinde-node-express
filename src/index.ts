@@ -1,7 +1,7 @@
-import { type SetupConfig, getInternalClient, setupInternalClient } from './setup';
-import { setupAuthRouter } from './auth';
+import { type SetupConfig, getInternalClient, setupInternalClient } from './setup/index.js';
+import { setupAuthRouter } from './auth/index.js';
 import type { Express } from 'express';
-import { jwtVerify } from './helpers/kindeMiddlewareHelpers';
+import { jwtVerify } from './helpers/kindeMiddlewareHelpers.js';
 
 import {
   managementApi,
@@ -10,7 +10,7 @@ import {
   Configuration,
 } from '@kinde-oss/kinde-typescript-sdk';
 
-export * from './helpers';
+export * from './helpers/index.js';
 export {
   managementApi,
   GrantType,
