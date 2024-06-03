@@ -1,4 +1,4 @@
-import { ExpressMiddleware, randomString } from '../utils';
+import { ExpressMiddleware, randomString } from '../utils.js';
 import type { Express, Request, Response, NextFunction } from 'express';
 import session, { type SessionOptions } from 'express-session';
 

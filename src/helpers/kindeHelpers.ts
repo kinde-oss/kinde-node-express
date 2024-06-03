@@ -1,7 +1,7 @@
 import type { ACClient } from '@kinde-oss/kinde-typescript-sdk';
 import type { Request, Response, NextFunction } from 'express';
-import { validateQueryParams } from '../auth';
-import { getInternalClient } from '../setup';
+import { validateQueryParams } from '../auth/index.js';
+import { getInternalClient } from '../setup/index.js';
 
 /**
  * Function uses internal SDK to return registration url with the `is_create_org`

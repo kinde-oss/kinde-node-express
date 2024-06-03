@@ -1,7 +1,7 @@
 import { default as authUtils } from '@kinde-oss/kinde-node-auth-utils';
 import { GrantType } from '@kinde-oss/kinde-typescript-sdk';
-import { getInitialConfig, getInternalClient } from '../setup';
-import { ExpressMiddleware } from '../utils';
+import { getInitialConfig, getInternalClient } from '../setup/index.js';
+import { ExpressMiddleware } from '../utils.js';
 import { JwtRsaVerifier } from 'aws-jwt-verify';
 import type { Request, Response, NextFunction } from 'express';
 import { validateToken, type jwtValidationResponse } from '@kinde/jwt-validator';

@@ -1,4 +1,4 @@
-import { GrantType, setupKinde } from './index';
+import { GrantType, setupKinde } from './index.js';
 import express from 'express';
 
 export const mockClientConfig = {
