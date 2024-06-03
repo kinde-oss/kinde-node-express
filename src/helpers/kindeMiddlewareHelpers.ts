@@ -66,6 +66,7 @@ export const protectRoute = async (
     if (validationResult.valid) {
       req.setSessionItem('access_token', token);
       next();
+      return;
     } else {
       res.sendStatus(403);
       return;
@@ -81,6 +82,7 @@ export const protectRoute = async (
   const callbackFn = (error: Error) => {
     if (error) return res.sendStatus(403);
     next();
+    return;
   };
 
   const pem = await getPem(issuerBaseUrl);
