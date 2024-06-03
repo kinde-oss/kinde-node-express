@@ -1,7 +1,7 @@
 import { default as authUtils } from '@kinde-oss/kinde-node-auth-utils';
 import { GrantType } from '@kinde-oss/kinde-typescript-sdk';
 import { getInitialConfig, getInternalClient } from '../setup/index.js';
-import { ExpressMiddleware } from '../utils.js';
+import type { ExpressMiddleware } from '../utils.js';
 import { JwtRsaVerifier } from 'aws-jwt-verify';
 import type { Request, Response, NextFunction } from 'express';
 import { validateToken, type jwtValidationResponse } from '@kinde/jwt-validator';
@@ -66,6 +66,7 @@ export const protectRoute = async (
     if (validationResult.valid) {
       req.setSessionItem('access_token', token);
       next();
+      return;
     } else {
       res.sendStatus(403);
       return;
@@ -81,6 +82,7 @@ export const protectRoute = async (
   const callbackFn = (error: Error) => {
     if (error) return res.sendStatus(403);
     next();
+    return;
   };
 
   const pem = await getPem(issuerBaseUrl);

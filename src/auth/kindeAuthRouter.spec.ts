@@ -1,6 +1,6 @@
 import { setupKindeMock, mockClientConfig, getMockAuthURL } from '../mocks.js';
 import { getInternalClient } from '../setup/index.js';
-import { ClientType } from '../setup/kindeSetupTypes.js';
+import type { ClientType } from '../setup/kindeSetupTypes.js';
 import type { GrantType } from '@kinde-oss/kinde-typescript-sdk';
 import request from 'supertest';
 
