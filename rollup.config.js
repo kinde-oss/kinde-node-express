@@ -9,18 +9,12 @@ export default {
   output: [
     {
       file: 'dist/index.esm.js',
-      format: 'esm'
+      format: 'esm',
     },
     {
       file: 'dist/index.cjs.js',
-      format: 'cjs'
-    }
+      format: 'cjs',
+    },
   ],
-  plugins: [
-    typescript(),
-    resolve(),
-    commonjs(),
-    terser(),
-    json()
-  ]
+  plugins: [typescript(), resolve(), commonjs(), terser(), json()],
 };

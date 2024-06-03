@@ -4,6 +4,7 @@ import { getInitialConfig, getInternalClient } from '../setup';
 import { ExpressMiddleware } from '../utils';
 import { JwtRsaVerifier } from 'aws-jwt-verify';
 import type { Request, Response, NextFunction } from 'express';
+import { validateToken, type jwtValidationResponse } from '@kinde/jwt-validator';
 
 const { authToken, getPem } = authUtils;
 
@@ -47,21 +48,44 @@ export const protectRoute = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const kindeClient = getInternalClient();
-  if (!(await kindeClient.isAuthenticated(req))) {
-    const logoutURL = await kindeClient.logout(req);
+  const { isAuthenticated, logout, getToken } = getInternalClient();
+  const { issuerBaseUrl } = getInitialConfig();
+
+  if (req.headers.authorization) {
+    const authHeader = req.header('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      res.sendStatus(401); // Unauthorized
+      return;
+    }
+    const token = authHeader.split(' ')[1];
+    const validationResult: jwtValidationResponse = await validateToken({
+      token,
+      domain: issuerBaseUrl,
+    });
+
+    if (validationResult.valid) {
+      req.setSessionItem('access_token', token);
+      next();
+    } else {
+      res.sendStatus(403);
+      return;
+    }
+  }
+
+  if (!(await isAuthenticated(req))) {
+    const logoutURL = await logout(req);
     return res.redirect(logoutURL.toString());
   }
+  const token = await getToken(req);
 
   const callbackFn = (error: Error) => {
     if (error) return res.sendStatus(403);
     next();
   };
 
-  const config = getInitialConfig();
-  const pem = await getPem(config.issuerBaseUrl);
-  const parsedToken = await kindeClient.getToken(req);
-  authToken(parsedToken, pem, callbackFn);
+  const pem = await getPem(issuerBaseUrl);
+
+  authToken(token, pem, callbackFn);
 };
 
 /**
