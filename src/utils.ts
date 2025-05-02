@@ -1,5 +1,5 @@
-import crypto from 'crypto';
-import type { Request, Response, NextFunction } from 'express';
+import crypto from "crypto";
+import type { Request, Response, NextFunction } from "express";
 
 /**
  * @typedef {Function} ExpressMiddleware
@@ -13,7 +13,7 @@ import type { Request, Response, NextFunction } from 'express';
 export type ExpressMiddleware<T> = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => T;
 
 /**
@@ -23,7 +23,7 @@ export type ExpressMiddleware<T> = (
  * @returns {string}
  */
 export const randomString = (): string => {
-  return crypto.randomBytes(28).toString('hex');
+  return crypto.randomBytes(28).toString("hex");
 };
 
 /**
@@ -34,6 +34,6 @@ export const randomString = (): string => {
  * @returns {URL}
  */
 export const getRequestURL = (req: Request): URL => {
-  const host = req.get('host');
+  const host = req.get("host");
   return new URL(`${req.protocol}://${host}${req.originalUrl}`);
 };

@@ -1,9 +1,9 @@
-import type { GrantType } from '@kinde-oss/kinde-typescript-sdk';
-import type { Request, Response, NextFunction, Router } from 'express';
-import { getRequestURL } from '../utils.js';
-import { getInitialConfig, getInternalClient } from '../setup/index.js';
-import type { ParsedQs } from 'qs';
-import express from 'express';
+import type { GrantType } from "@kinde-oss/kinde-typescript-sdk";
+import type { Request, Response, NextFunction, Router } from "express";
+import { getRequestURL } from "../utils.js";
+import { getInitialConfig, getInternalClient } from "../setup/index.js";
+import type { ParsedQs } from "qs";
+import express from "express";
 
 /**
  * Extracts the redirect route from the redirectUrl provided as part of the
@@ -24,11 +24,11 @@ export const getRedirectRoute = (): string => {
  * @returns {Error | null}
  */
 export const validateQueryParams = (requestQuery: ParsedQs): Error | null => {
-  const queryParams = ['org_code'];
+  const queryParams = ["org_code"];
   for (const param of queryParams) {
     const value = requestQuery[param];
     if (value !== undefined) {
-      if (!value || typeof value !== 'string') {
+      if (!value || typeof value !== "string") {
         const message = `Provided param '${param}' has invalid value '${value}'`;
         return new Error(message);
       }
@@ -48,7 +48,7 @@ export const validateQueryParams = (requestQuery: ParsedQs): Error | null => {
 const handleLogin = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   const error = validateQueryParams(req.query);
   if (error !== null) {
@@ -72,7 +72,7 @@ const handleLogin = async (
 const handleRegister = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   const error = validateQueryParams(req.query);
   if (error !== null) {
@@ -115,8 +115,9 @@ const handleCallback = async (req: Request, res: Response): Promise<void> => {
     await client.handleRedirectToApp(req, callbackURL);
     res.redirect(siteUrl);
   } catch (error) {
-    console.debug('Error: ', error);
-    const { unAuthorisedUrl } = getInitialConfig<GrantType.AUTHORIZATION_CODE>();
+    console.debug("Error: ", error);
+    const { unAuthorisedUrl } =
+      getInitialConfig<GrantType.AUTHORIZATION_CODE>();
     res.redirect(unAuthorisedUrl);
   }
 };
@@ -129,9 +130,9 @@ const handleCallback = async (req: Request, res: Response): Promise<void> => {
 export const getAuthRouter = (): Router => {
   const redirectRoute = getRedirectRoute();
   const router = express.Router();
-  router.get('/login', handleLogin);
-  router.get('/logout', handleLogout);
-  router.get('/register', handleRegister);
+  router.get("/login", handleLogin);
+  router.get("/logout", handleLogout);
+  router.get("/register", handleRegister);
   router.get(redirectRoute, handleCallback);
   return router;
 };

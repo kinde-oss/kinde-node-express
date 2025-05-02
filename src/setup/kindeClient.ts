@@ -1,24 +1,31 @@
-import { GrantType, createKindeServerClient } from '@kinde-oss/kinde-typescript-sdk';
-import type { SetupConfig, ClientType, ClientOptions } from './kindeSetupTypes.js';
-import { version as frameworkSDKVersion } from '../version.js';
+import {
+  GrantType,
+  createKindeServerClient,
+} from "@kinde-oss/kinde-typescript-sdk";
+import type {
+  SetupConfig,
+  ClientType,
+  ClientOptions,
+} from "./kindeSetupTypes.js";
+import { version as frameworkSDKVersion } from "../version.js";
 
 let initialConfig: SetupConfig<GrantType>;
 let internalClient: ClientType<GrantType>;
 
 const commonConfigParams: string[] = [
-  'grantType',
-  'issuerBaseUrl',
-  'postLogoutRedirectUrl',
-  'siteUrl',
-  'clientId',
+  "grantType",
+  "issuerBaseUrl",
+  "postLogoutRedirectUrl",
+  "siteUrl",
+  "clientId",
 ] as const;
 
 const grantTypeConfigParams: {
   [k in GrantType]: string[];
 } = {
-  [GrantType.AUTHORIZATION_CODE]: ['secret', 'redirectUrl', 'unAuthorisedUrl'],
-  [GrantType.PKCE]: ['redirectUrl', 'unAuthorisedUrl'],
-  [GrantType.CLIENT_CREDENTIALS]: ['secret'],
+  [GrantType.AUTHORIZATION_CODE]: ["secret", "redirectUrl", "unAuthorisedUrl"],
+  [GrantType.PKCE]: ["redirectUrl", "unAuthorisedUrl"],
+  [GrantType.CLIENT_CREDENTIALS]: ["secret"],
 };
 
 /**
@@ -29,7 +36,7 @@ const grantTypeConfigParams: {
  */
 export const getInitialConfig = <G extends GrantType>(): SetupConfig<G> => {
   if (initialConfig === undefined) {
-    throw new Error('Initial config is not initialized');
+    throw new Error("Initial config is not initialized");
   } else {
     return initialConfig as SetupConfig<G>;
   }
@@ -43,7 +50,7 @@ export const getInitialConfig = <G extends GrantType>(): SetupConfig<G> => {
  */
 export const getInternalClient = <G extends GrantType>(): ClientType<G> => {
   if (internalClient === undefined) {
-    throw new Error('Internal Kinde server client is not initialized');
+    throw new Error("Internal Kinde server client is not initialized");
   } else {
     return internalClient as ClientType<G>;
   }
@@ -57,12 +64,12 @@ export const getInternalClient = <G extends GrantType>(): ClientType<G> => {
  * @returns {SetupConfig<G>}
  */
 export const validateInitialConfig = <G extends GrantType>(
-  config: SetupConfig<G>
+  config: SetupConfig<G>,
 ): SetupConfig<G> => {
   const grantType: GrantType = config.grantType;
   const grantTypeParams = grantTypeConfigParams[grantType];
   if (!grantTypeParams) {
-    const types = Object.values(GrantType).join(', ');
+    const types = Object.values(GrantType).join(", ");
     throw new Error(`Provided grant type must be one of these values ${types}`);
   }
 
@@ -70,9 +77,9 @@ export const validateInitialConfig = <G extends GrantType>(
   const configObject = config as unknown as Record<string, string>;
   configParams.forEach((param) => {
     const value = configObject[param];
-    if (!value || typeof value !== 'string') {
+    if (!value || typeof value !== "string") {
       throw new Error(
-        `Required config parameter '${param}' has invalid value ${value}`
+        `Required config parameter '${param}' has invalid value ${value}`,
       );
     }
   });
@@ -88,7 +95,7 @@ export const validateInitialConfig = <G extends GrantType>(
  * @returns {ClientType<G>}
  */
 export const setupInternalClient = <G extends GrantType>(
-  config: SetupConfig<G>
+  config: SetupConfig<G>,
 ): ClientType<G> => {
   const {
     issuerBaseUrl,
@@ -106,14 +113,14 @@ export const setupInternalClient = <G extends GrantType>(
     {
       authDomain: issuerBaseUrl,
       redirectURL: redirectUrl,
-      clientId: clientId ?? 'reg@live',
+      clientId: clientId ?? "reg@live",
       clientSecret: secret,
       logoutRedirectURL: postLogoutRedirectUrl,
       audience: audience ?? undefined,
       scope: scope ?? undefined,
-      framework: 'ExpressJS',
+      framework: "ExpressJS",
       frameworkVersion: frameworkSDKVersion,
-    } as ClientOptions<G>
+    } as ClientOptions<G>,
   );
 
   return internalClient as ClientType<G>;

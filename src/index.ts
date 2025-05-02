@@ -2,18 +2,18 @@ import {
   type SetupConfig,
   getInternalClient,
   setupInternalClient,
-} from './setup/index.js';
-import { setupAuthRouter } from './auth/index.js';
-import type { Express } from 'express';
-import { jwtVerify } from './helpers/kindeMiddlewareHelpers.js';
+} from "./setup/index.js";
+import { setupAuthRouter } from "./auth/index.js";
+import type { Express } from "express";
+import { jwtVerify } from "./helpers/kindeMiddlewareHelpers.js";
 
 import {
   managementApi,
   GrantType,
   Configuration,
-} from '@kinde-oss/kinde-typescript-sdk';
+} from "@kinde-oss/kinde-typescript-sdk";
 
-export * from './helpers/index.js';
+export * from "./helpers/index.js";
 export { managementApi, GrantType, Configuration, jwtVerify };
 
 /**
@@ -26,9 +26,9 @@ export { managementApi, GrantType, Configuration, jwtVerify };
  */
 export const setupKinde = <G extends GrantType>(
   config: SetupConfig<G>,
-  app: Express
+  app: Express,
 ) => {
   setupInternalClient(app, config);
-  setupAuthRouter(app, '/');
+  setupAuthRouter(app, "/");
   return getInternalClient();
 };

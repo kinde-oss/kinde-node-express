@@ -1,2 +1,2 @@
-'**/*.ts':
-  - 'npm run format'
+"**/*.ts":
+  - "npm run format"

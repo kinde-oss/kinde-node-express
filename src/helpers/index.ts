@@ -1,2 +1,2 @@
-export * from './kindeHelpers.js';
-export * from './kindeMiddlewareHelpers.js';
+export * from "./kindeHelpers.js";
+export * from "./kindeMiddlewareHelpers.js";

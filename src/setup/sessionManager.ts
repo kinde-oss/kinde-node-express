@@ -1,6 +1,6 @@
-import { ExpressMiddleware, randomString } from '../utils.js';
-import type { Express, Request, Response, NextFunction } from 'express';
-import session, { type SessionOptions } from 'express-session';
+import { ExpressMiddleware, randomString } from "../utils.js";
+import type { Express, Request, Response, NextFunction } from "express";
+import session, { type SessionOptions } from "express-session";
 
 const SESSION_MAX_AGE: number = 1000 * 60 * 60 * 24;
 
@@ -9,10 +9,10 @@ const sessionConfig: SessionOptions = {
   saveUninitialized: true,
   cookie: {
     maxAge: SESSION_MAX_AGE,
-    sameSite: 'lax',
+    sameSite: "lax",
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    path: '/',
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
   },
   resave: false,
 };
@@ -45,7 +45,7 @@ const getSessionManager = (): ExpressMiddleware<void> => {
 const hasSessionMiddleware = (app: Express) => {
   if (app._router && app._router.stack) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return app._router.stack.some((l: any) => l.name === 'session');
+    return app._router.stack.some((l: any) => l.name === "session");
   }
   return false;
 };
