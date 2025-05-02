@@ -4,7 +4,7 @@ import type {
   PKCEClientOptions,
   ACClientOptions,
   CCClientOptions,
-} from '@kinde-oss/kinde-typescript-sdk';
+} from "@kinde-oss/kinde-typescript-sdk";
 
 interface CommonSetupConfigParams<G extends GrantType> {
   grantType: G;
@@ -23,7 +23,8 @@ interface ACSetupConfigParams
   redirectUrl: string;
 }
 
-interface PKCESetupConfigParams extends CommonSetupConfigParams<GrantType.PKCE> {
+interface PKCESetupConfigParams
+  extends CommonSetupConfigParams<GrantType.PKCE> {
   unAuthorisedUrl: string;
   redirectUrl: string;
 }

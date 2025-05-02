@@ -1,4 +1,4 @@
-declare module 'aws-jwt-verify' {
+declare module "aws-jwt-verify" {
   type VerifierOptions = {
     issuer: string;
     audience: string | null;

@@ -1,9 +1,12 @@
-import { GrantType } from '@kinde-oss/kinde-typescript-sdk';
-import { getInitialConfig, getInternalClient } from '../setup/index.js';
-import type { ExpressMiddleware } from '../utils.js';
-import { JwtRsaVerifier } from 'aws-jwt-verify';
-import type { Request, Response, NextFunction } from 'express';
-import { validateToken, type jwtValidationResponse } from '@kinde/jwt-validator';
+import { GrantType } from "@kinde-oss/kinde-typescript-sdk";
+import { getInitialConfig, getInternalClient } from "../setup/index.js";
+import type { ExpressMiddleware } from "../utils.js";
+import { JwtRsaVerifier } from "aws-jwt-verify";
+import type { Request, Response, NextFunction } from "express";
+import {
+  validateToken,
+  type jwtValidationResponse,
+} from "@kinde/jwt-validator";
 
 /**
  * Custom middleware fetches details for the authenticated user and attaches them
@@ -15,7 +18,11 @@ import { validateToken, type jwtValidationResponse } from '@kinde/jwt-validator'
  * @param {NextFunction} next
  * @returns {Promise<void>}
  */
-export const getUser = async (req: Request, res: Response, next: NextFunction) => {
+export const getUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const kindeClient = getInternalClient<GrantType.PKCE>();
   if (!(await kindeClient.isAuthenticated(req))) {
     const logoutURL = await kindeClient.logout(req);
@@ -43,25 +50,25 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
 export const protectRoute = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   const { isAuthenticated, logout, getToken } = getInternalClient();
   const { issuerBaseUrl } = getInitialConfig();
 
   if (req.headers.authorization) {
-    const authHeader = req.header('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    const authHeader = req.header("Authorization");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       res.sendStatus(401); // Unauthorized
       return;
     }
-    const token = authHeader.split(' ')[1];
+    const token = authHeader.split(" ")[1];
     const validationResult: jwtValidationResponse = await validateToken({
       token,
       domain: issuerBaseUrl,
     });
 
     if (validationResult.valid) {
-      req.setSessionItem('access_token', token);
+      req.setSessionItem("access_token", token);
       next();
       return;
     } else {
@@ -98,7 +105,7 @@ export const protectRoute = async (
  */
 export const jwtVerify = (
   issuer: string,
-  options: Record<string, string>
+  options: Record<string, string>,
 ): ExpressMiddleware<Promise<void | Response>> => {
   const { audience } = options;
   const verifier = JwtRsaVerifier.create({
@@ -110,13 +117,13 @@ export const jwtVerify = (
   return async (req, res, next) => {
     try {
       const authHeader = req.headers.authorization;
-      const token = authHeader && authHeader.split(' ')[1];
+      const token = authHeader && authHeader.split(" ")[1];
       const payload = await verifier.verify(token);
       // @ts-expect-error, preserving this behaviour owing to backward compatibility.
       req.user = { id: payload.sub };
       next();
     } catch (err) {
-      console.log('Token not valid!');
+      console.log("Token not valid!");
       console.log(err);
       return res.sendStatus(403);
     }
