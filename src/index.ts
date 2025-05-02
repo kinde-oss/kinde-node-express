@@ -1,4 +1,8 @@
-import { type SetupConfig, getInternalClient, setupInternalClient } from './setup/index.js';
+import {
+  type SetupConfig,
+  getInternalClient,
+  setupInternalClient,
+} from './setup/index.js';
 import { setupAuthRouter } from './auth/index.js';
 import type { Express } from 'express';
 import { jwtVerify } from './helpers/kindeMiddlewareHelpers.js';
@@ -10,12 +14,7 @@ import {
 } from '@kinde-oss/kinde-typescript-sdk';
 
 export * from './helpers/index.js';
-export {
-  managementApi,
-  GrantType,
-  Configuration,
-  jwtVerify,
-};
+export { managementApi, GrantType, Configuration, jwtVerify };
 
 /**
  * Encapsulates Kinde setup by completing creating internal TypeScript SDK

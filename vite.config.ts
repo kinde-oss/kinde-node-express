@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-import { resolve } from "path";
+import { resolve } from 'path';
 
 const external = [
   'express',
@@ -8,44 +8,41 @@ const external = [
   '@kinde-oss/kinde-typescript-sdk',
   '@kinde/jwt-validator',
   'aws-jwt-verify',
-  'crypto'
+  'crypto',
 ];
 
-
 export default defineConfig({
-    build: {
-      copyPublicDir: false,
-      lib: {
-        entry: resolve(__dirname, "src/index.ts"),
-        formats: ["es", "cjs"],
-        name: "@kinde-oss/kinde-node-express",
-        fileName: (format) =>
-          `kinde-node-express.${format === "es" ? "mjs" : "cjs"}`,
-      },
-      target: "esnext",
-      outDir: "./dist",
-      rollupOptions: {
-        external,
-        output: {
-          globals: {
-            "@kinde/jwt-decoder": "jwtDecoder",
-            "aws-jwt-verify": "awsJwtVerify",
-            dotenv: "dotenv",
-          },
+  build: {
+    copyPublicDir: false,
+    lib: {
+      entry: resolve(__dirname, 'src/index.ts'),
+      formats: ['es', 'cjs'],
+      name: '@kinde-oss/kinde-node-express',
+      fileName: (format) => `kinde-node-express.${format === 'es' ? 'mjs' : 'cjs'}`,
+    },
+    target: 'esnext',
+    outDir: './dist',
+    rollupOptions: {
+      external,
+      output: {
+        globals: {
+          '@kinde/jwt-decoder': 'jwtDecoder',
+          'aws-jwt-verify': 'awsJwtVerify',
+          dotenv: 'dotenv',
         },
       },
     },
-    resolve: { alias: { src: resolve(__dirname, "src") } },
-    plugins: [
-      dts({
-        insertTypesEntry: true,
-        outDir: "./dist",
-        include: ["src/**/*.ts"],
-        exclude: ["src/**/*.test.ts"],
-      }),
-    ],
-  });
-  
+  },
+  resolve: { alias: { src: resolve(__dirname, 'src') } },
+  plugins: [
+    dts({
+      insertTypesEntry: true,
+      outDir: './dist',
+      include: ['src/**/*.ts'],
+      exclude: ['src/**/*.test.ts'],
+    }),
+  ],
+});
 
 // export default defineConfig([
 //   // ESM build
@@ -90,4 +87,4 @@ export default defineConfig({
 //     },
 //     plugins: [],
 //   },
-// ]); 
+// ]);

@@ -115,6 +115,7 @@ const handleCallback = async (req: Request, res: Response): Promise<void> => {
     await client.handleRedirectToApp(req, callbackURL);
     res.redirect(siteUrl);
   } catch (error) {
+    console.debug('Error: ', error);
     const { unAuthorisedUrl } = getInitialConfig<GrantType.AUTHORIZATION_CODE>();
     res.redirect(unAuthorisedUrl);
   }
