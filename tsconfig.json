@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES2020",     
-    "module": "NodeNext",  
+    "target": "ES2020",
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "esModuleInterop": true, 
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
-    "declarationDir": "dist/types", 
+    "declarationDir": "dist/types",
     "outDir": "dist",
-    "allowSyntheticDefaultImports": true, 
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist"] 
+  "exclude": ["node_modules", "dist"]
 }
