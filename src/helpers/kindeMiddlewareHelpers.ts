@@ -1,12 +1,9 @@
-import { default as authUtils } from '@kinde-oss/kinde-node-auth-utils';
 import { GrantType } from '@kinde-oss/kinde-typescript-sdk';
 import { getInitialConfig, getInternalClient } from '../setup/index.js';
 import type { ExpressMiddleware } from '../utils.js';
 import { JwtRsaVerifier } from 'aws-jwt-verify';
 import type { Request, Response, NextFunction } from 'express';
 import { validateToken, type jwtValidationResponse } from '@kinde/jwt-validator';
-
-const { authToken, getPem } = authUtils;
 
 /**
  * Custom middleware fetches details for the authenticated user and attaches them
@@ -79,15 +76,16 @@ export const protectRoute = async (
   }
   const token = await getToken(req);
 
-  const callbackFn = (error: Error) => {
-    if (error) return res.sendStatus(403);
-    next();
+  const validationResult: jwtValidationResponse = await validateToken({
+    token: token,
+    domain: issuerBaseUrl,
+  });
+
+  if (!validationResult.valid) {
+    res.sendStatus(403);
     return;
-  };
-
-  const pem = await getPem(issuerBaseUrl);
-
-  authToken(token, pem, callbackFn);
+  }
+  next();
 };
 
 /**
