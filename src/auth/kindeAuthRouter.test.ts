@@ -1,3 +1,4 @@
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import { setupKindeMock, mockClientConfig, getMockAuthURL } from '../mocks.js';
 import { getInternalClient } from '../setup/index.js';
 import type { ClientType } from '../setup/kindeSetupTypes.js';
@@ -9,7 +10,7 @@ describe('kindeAuthRouter', () => {
 
   describe('handleRegister()', () => {
     const internalClient = getInternalClient();
-    const registerMock = jest.spyOn(
+    const registerMock = vi.spyOn(
       internalClient as ClientType<GrantType.AUTHORIZATION_CODE>,
       'register'
     );
@@ -36,7 +37,7 @@ describe('kindeAuthRouter', () => {
   });
   describe('handleLogin()', () => {
     const internalClient = getInternalClient();
-    const loginMock = jest.spyOn(
+    const loginMock = vi.spyOn(
       internalClient as ClientType<GrantType.AUTHORIZATION_CODE>,
       'login'
     );
@@ -64,7 +65,7 @@ describe('kindeAuthRouter', () => {
 
   describe('handleCallback()', () => {
     const internalClient = getInternalClient();
-    const redirectToAppMock = jest.spyOn(
+    const redirectToAppMock = vi.spyOn(
       internalClient as ClientType<GrantType.AUTHORIZATION_CODE>,
       'handleRedirectToApp'
     );

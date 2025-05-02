@@ -27,7 +27,7 @@ export const getMockAuthURL = (paramOverrides = {}) => {
   return authURL;
 };
 
-export const setupKindeMock = (configOverrides = {}): express.Application => {
+export const setupKindeMock = (configOverrides = {}) => {
   const app = express();
   const config = { ...mockClientConfig, ...configOverrides };
   setupKinde(config, app);
