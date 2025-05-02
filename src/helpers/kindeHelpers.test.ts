@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeAll, afterEach, vi } from 'vitest';
 import type { GrantType } from '@kinde-oss/kinde-typescript-sdk';
 import { setupKindeMock, getMockAuthURL } from '../mocks.js';
 import { getInternalClient, type ClientType } from '../setup/index.js';
@@ -9,7 +10,7 @@ describe('kindeHelpers', () => {
 
   describe('createOrg()', () => {
     const internalClient = getInternalClient();
-    const handleCreateOrgMock = jest.spyOn(
+    const handleCreateOrgMock = vi.spyOn(
       internalClient as ClientType<GrantType.AUTHORIZATION_CODE>,
       'createOrg'
     );
