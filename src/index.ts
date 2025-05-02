@@ -6,7 +6,6 @@ import { jwtVerify } from './helpers/kindeMiddlewareHelpers.js';
 import {
   managementApi,
   GrantType,
-  ConfigurationParameters,
   Configuration,
 } from '@kinde-oss/kinde-typescript-sdk';
 
@@ -14,7 +13,6 @@ export * from './helpers/index.js';
 export {
   managementApi,
   GrantType,
-  ConfigurationParameters,
   Configuration,
   jwtVerify,
 };
