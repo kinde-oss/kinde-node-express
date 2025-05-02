@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@kinde-oss/kinde-node-express':
-        specifier: 'link:'
-        version: 'link:'
       '@kinde-oss/kinde-typescript-sdk':
         specifier: ^2.9.1
         version: 2.10.1
