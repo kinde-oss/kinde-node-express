@@ -79,7 +79,7 @@
   "dependencies": {
     "@kinde-oss/kinde-typescript-sdk": "^2.9.1",
     "@kinde/jwt-validator": "^0.4.0",
-    "aws-jwt-verify": "^3.4.0",
+    "aws-jwt-verify": "^5.0.0",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
     "express": "^4.21.2",
