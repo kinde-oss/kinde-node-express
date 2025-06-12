@@ -62,6 +62,20 @@ const handleLogin = async (
 };
 
 /**
+ * Creates Portal URL using internal SDK and redirects to said URL.
+ *
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object.
+ * @param {NextFunction} next - The Express next function.
+ * @returns {Promise<void>}
+ */
+const handlePortal = async (req: Request, res: Response): Promise<void> => {
+  const client = getInternalClient<GrantType.AUTHORIZATION_CODE>();
+  const portalUrl = await client.portal(req, req.query);
+  res.redirect(portalUrl.url.toString());
+};
+
+/**
  * Creates register URL using internal SDK and redirects to said URL.
  *
  * @param {Request} req - The Express request object.
@@ -131,6 +145,7 @@ export const getAuthRouter = (): Router => {
   const redirectRoute = getRedirectRoute();
   const router = express.Router();
   router.get("/login", handleLogin);
+  router.get("/portal", handlePortal);
   router.get("/logout", handleLogout);
   router.get("/register", handleRegister);
   router.get(redirectRoute, handleCallback);
