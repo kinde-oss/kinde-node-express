@@ -1,0 +1,2 @@
+overrides:
+  '@kinde/js-utils': link:../js-utils

@@ -1,6 +1,7 @@
 import { ExpressMiddleware, randomString } from "../utils.js";
 import type { Express, Request, Response, NextFunction } from "express";
 import session, { type SessionOptions } from "express-session";
+import { ExpressSessionManager } from "@kinde/js-utils";
 
 const SESSION_MAX_AGE: number = 1000 * 60 * 60 * 24;
 
@@ -18,27 +19,27 @@ const sessionConfig: SessionOptions = {
 };
 
 /**
- * Sets up @type{import('@kinde-oss/kinde-typescript-sdk').SessionManager} as an
- * as an express middleware, with the assumption that `express-session` package
- * middleware has already been configured.
+ * Sets up the session manager by creating an instance of the
+ * `ExpressSessionManager` class from @kinde/js-utils for each request.
  *
  * @returns {ExpressMiddleware}
  */
-const getSessionManager = (): ExpressMiddleware<void> => {
+export const getSessionManager = (): ExpressMiddleware<void> => {
   return (req: Request, _: Response, next: NextFunction) => {
-    req.setSessionItem = async (itemKey, itemValue) => {
-      req.session[itemKey] = itemValue;
-    };
-    req.getSessionItem = async (itemKey) => {
-      return req.session[itemKey] ?? null;
-    };
-    req.removeSessionItem = async (itemKey) => {
-      delete req.session[itemKey];
-    };
-    req.destroySession = async () => {
-      req.session.destroy((e) => console.log(e));
-    };
-    next();
+    try {
+      // Ensuring the session is initialized
+      const manager = new ExpressSessionManager(req);
+
+      // Now bridging the methods from @kinde/js-utils to req object
+      req.setSessionItem = manager.setSessionItem.bind(manager);
+      req.getSessionItem = manager.getSessionItem.bind(manager);
+      req.removeSessionItem = manager.removeSessionItem.bind(manager);
+      req.destroySession = manager.destroySession.bind(manager);
+
+      next();
+    } catch (error) {
+      next(error);
+    }
   };
 };
 
@@ -51,8 +52,7 @@ const hasSessionMiddleware = (app: Express) => {
 };
 
 /**
- * Attaches the `express-session` middleware and the `SessionManager` for internal
- * typescript SDK (in middleware form).
+ * Attaches the `express-session` middleware and the Kinde ExpressSessionManager.
  * @param {Express} app
  */
 export const setupKindeSession = (app: Express): void => {

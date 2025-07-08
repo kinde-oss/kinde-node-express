@@ -1,34 +1,33 @@
+import type { Express } from "express";
 import {
   type SetupConfig,
   getInternalClient,
   setupInternalClient,
 } from "./setup/index.js";
 import { setupAuthRouter } from "./auth/index.js";
-import type { Express } from "express";
 import { jwtVerify } from "./helpers/kindeMiddlewareHelpers.js";
-
-import {
-  managementApi,
-  GrantType,
-  Configuration,
-} from "@kinde-oss/kinde-typescript-sdk";
-
+import { setupKindeSession } from "./setup/sessionManager.js";
+import type { GrantType } from "@kinde-oss/kinde-typescript-sdk";
 export * from "./helpers/index.js";
-export { managementApi, GrantType, Configuration, jwtVerify };
+export { jwtVerify };
 
 /**
- * Encapsulates Kinde setup by completing creating internal TypeScript SDK
- * client, setting up its session manager interface and attaching auth router
- * to provided express instance.
+ * Encapsulates Kinde setup for an Express application by setting up sessions,
+ * creating the client, and attaching authentication routes.
  *
- * @param {Express} app
- * @param {SetupConfig} config
+ * @param {SetupConfig} config The Kinde configuration object.
+ * @param {Express} app The Express application instance.
+ * @returns The initialized Kinde client.
  */
 export const setupKinde = <G extends GrantType>(
   config: SetupConfig<G>,
-  app: Express,
+  app: Express
 ) => {
-  setupInternalClient(app, config);
+  // setting up expressSession layer first for Kinde
+  setupKindeSession(app);
+  // initializing the Kinde SDK client
+  setupInternalClient(config);
+  // setting up the authentication routes
   setupAuthRouter(app, "/");
   return getInternalClient();
 };
