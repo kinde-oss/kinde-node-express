@@ -7,7 +7,10 @@ import type {
   ClientType,
   ClientOptions,
 } from "./kindeSetupTypes.js";
-import { version as frameworkSDKVersion } from "../version.js";
+import packageJson from "../../package.json" with { type: "json" };
+import { readFileSync } from "fs";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 
 let initialConfig: SetupConfig<GrantType>;
 let internalClient: ClientType<GrantType>;
@@ -87,6 +90,27 @@ export const validateInitialConfig = <G extends GrantType>(
   return config;
 };
 
+export const getApplicationExpressVersionESM = () => {
+  const fallbackVersion = "Unknown";
+
+  try {
+    const expressPackageJsonPath = require.resolve("express/package.json");
+    const packageJson = JSON.parse(
+      readFileSync(expressPackageJsonPath, "utf8"),
+    );
+    if (packageJson.name === "express") {
+      return packageJson.version;
+    }
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.warn(
+      `[SDK] Could not determine application's Express.js version: ${errorMessage}`,
+    );
+  }
+
+  return fallbackVersion;
+};
+
 /**
  * Initializes above `initialConfig` and `internalClient` raises an exception if
  * validation of provided config failes, returns created client otherwise.
@@ -108,6 +132,11 @@ export const setupInternalClient = <G extends GrantType>(
   } = config as unknown as Record<string, string>;
 
   initialConfig = validateInitialConfig(config);
+
+  console.info(
+    `Kinde Express SDK ${packageJson.version} for Express ${getApplicationExpressVersionESM()}`,
+  );
+
   internalClient = createKindeServerClient<G>(
     initialConfig.grantType as G,
     {
@@ -119,7 +148,8 @@ export const setupInternalClient = <G extends GrantType>(
       audience: audience ?? undefined,
       scope: scope ?? undefined,
       framework: "ExpressJS",
-      frameworkVersion: frameworkSDKVersion,
+      frameworkVersion: packageJson.version,
+      sdkVersion: packageJson.version,
     } as ClientOptions<G>,
   );
 

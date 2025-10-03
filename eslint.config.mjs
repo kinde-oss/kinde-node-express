@@ -5,7 +5,13 @@ import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
   { languageOptions: { globals: globals.browser } },
-  globalIgnores(["dist", "node_modules", "lib/coverage/**"]),
+  globalIgnores([
+    "dist",
+    "node_modules",
+    "lib/coverage/**",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+  ]),
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
 ]);
