@@ -77,7 +77,7 @@
   ],
   "private": false,
   "dependencies": {
-    "@kinde-oss/kinde-typescript-sdk": "^2.11.0",
+    "@kinde-oss/kinde-typescript-sdk": "^2.13.1",
     "@kinde/jwt-validator": "^0.4.0",
     "aws-jwt-verify": "^5.0.0",
     "eslint-config-prettier": "^10.1.2",
