@@ -41,7 +41,7 @@ importers:
         version: 9.26.0
       '@tsconfig/node19':
         specifier: ^19.1.2
-        version: 19.1.5
+        version: 19.1.7
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
@@ -556,8 +556,8 @@ packages:
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
 
-  '@tsconfig/node19@19.1.5':
-    resolution: {integrity: sha512-dgXw9wSRjfmHSu1THzmkouix4afgoHOi3mzsVnheNteYY3SRXhSkb9b9zTMhVCUYHv+Gu8w/NZKmw+pOktQtRQ==}
+  '@tsconfig/node19@19.1.7':
+    resolution: {integrity: sha512-+ZDAq7UPP/GhCez0+wGpZmK5HCgPy/sD+EqVisVwPJNJUhHkOxAGV53ANqhLdcUJJO8na/pH34Yy/u1rmsoBKA==}
 
   '@types/argparse@1.0.38':
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
@@ -2638,7 +2638,7 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
-  '@tsconfig/node19@19.1.5': {}
+  '@tsconfig/node19@19.1.7': {}
 
   '@types/argparse@1.0.38': {}
 
