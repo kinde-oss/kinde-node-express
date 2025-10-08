@@ -9,6 +9,8 @@ const external = [
   "@kinde/jwt-validator",
   "aws-jwt-verify",
   "crypto",
+  "fs",
+  "module",
 ];
 
 export default defineConfig({
