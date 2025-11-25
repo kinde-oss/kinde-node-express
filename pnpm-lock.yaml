@@ -16,7 +16,7 @@ importers:
         version: 0.4.0
       aws-jwt-verify:
         specifier: ^5.0.0
-        version: 5.0.0
+        version: 5.1.1
       eslint-config-prettier:
         specifier: ^10.1.2
         version: 10.1.2(eslint@9.26.0)
@@ -821,9 +821,9 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  aws-jwt-verify@5.0.0:
-    resolution: {integrity: sha512-FQM5EYEm7AnVJ3oeTpvBZQm7hYnpI067Em1oopHBs7cCNAcw8Aw8NFbojFjkNXifsOzyYe1ks+bg7Q9fMsTZSA==}
-    engines: {node: '>=16.0.0'}
+  aws-jwt-verify@5.1.1:
+    resolution: {integrity: sha512-j6whGdGJmQ27agk4ijY8RPv6itb8JLb7SCJ86fEnneTcSBrpxuwL8kLq6y5WVH95aIknyAloEqAsaOLS1J8ITQ==}
+    engines: {node: '>=18.0.0'}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -2966,7 +2966,7 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  aws-jwt-verify@5.0.0: {}
+  aws-jwt-verify@5.1.1: {}
 
   balanced-match@1.0.2: {}
 
