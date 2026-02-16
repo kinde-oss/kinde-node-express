@@ -24,14 +24,14 @@ importers:
         specifier: ^5.2.6
         version: 5.5.4(eslint-config-prettier@10.1.2(eslint@9.26.0))(eslint@9.26.0)(prettier@3.5.3)
       express:
-        specifier: ^4.21.2
-        version: 4.21.2
+        specifier: ^4.22.1
+        version: 4.22.1
       express-session:
         specifier: ^1.18.1
         version: 1.18.1
       qs:
-        specifier: ^6.14.0
-        version: 6.14.0
+        specifier: ^6.15.0
+        version: 6.15.0
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.3.1
@@ -949,19 +949,12 @@ packages:
     resolution: {integrity: sha512-nTjqfcBFEipKdXCv4YDQWCfmcLZKm81ldF0pAopTvyrFGVbcR6P/VAAd5G7N+0tTr8QqiU0tFadD6FK4NtJwOA==}
     engines: {node: '>= 0.6'}
 
-  cookie-signature@1.0.6:
-    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
-
   cookie-signature@1.0.7:
     resolution: {integrity: sha512-NXdYc3dLr47pBkpUCHtKSwIOQXLVn8dZEuywboCOJY/osA0wFSLlSawr3KN8qXJEyX66FcONTH8EIlVuK0yyFA==}
 
   cookie-signature@1.2.2:
     resolution: {integrity: sha512-D76uU73ulSXrD1UXF4KE2TMxVVwhsnCgfAyTg9k8P6KGZjlXKrOLe4dJQKI3Bxi5wjesZoFXJWElNWBjPZMbhg==}
     engines: {node: '>=6.6.0'}
-
-  cookie@0.7.1:
-    resolution: {integrity: sha512-6DnInpx7SJ2AK3+CTUE/ZM0vWTUboZCegxhC2xiIydHR9jNuTAASBrfEpHhiGOZw/nX51bHt6YQl8jsGo4y/0w==}
-    engines: {node: '>= 0.6'}
 
   cookie@0.7.2:
     resolution: {integrity: sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==}
@@ -1194,8 +1187,8 @@ packages:
     resolution: {integrity: sha512-a5mtTqEaZvBCL9A9aqkrtfz+3SMDhOVUnjafjo+s7A9Txkq+SVX2DLvSp1Zrv4uCXa3lMSK3viWnh9Gg07PBUA==}
     engines: {node: '>= 0.8.0'}
 
-  express@4.21.2:
-    resolution: {integrity: sha512-28HqgMZAmih1Czt9ny7qr6ek2qddF4FclbMzwhCREB6OFfH+rXAnuNCwo1/wFvrtbgsQDb4kSbX9de9lFbrXnA==}
+  express@4.22.1:
+    resolution: {integrity: sha512-F2X8g9P1X7uCPZMA3MVf9wcTqlyNp7IhH5qPCI0izhaOIYXaW9L535tGA3qmjRzpH+bZczqq7hVKxTR4NWnu+g==}
     engines: {node: '>= 0.10.0'}
 
   express@5.1.0:
@@ -1780,8 +1773,12 @@ packages:
     resolution: {integrity: sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==}
     engines: {node: '>=0.6'}
 
-  qs@6.14.0:
-    resolution: {integrity: sha512-YWWTjgABSKcvs/nWBi9PycY/JiPJqOD4JA6o9Sej2AtvSGarXxKC3OQSk4pAarbdQlKAh5D4FCQkJNkW+GAn3w==}
+  qs@6.14.2:
+    resolution: {integrity: sha512-V/yCWTTF7VJ9hIh18Ugr2zhJMP01MY7c5kh4J870L7imm6/DIzBsNLTXzMwUA3yZ5b/KBqLx8Kp3uRvd7xSe3Q==}
+    engines: {node: '>=0.6'}
+
+  qs@6.15.0:
+    resolution: {integrity: sha512-mAZTtNCeetKMH+pSjrb76NAM8V9a05I9aBZOHztWy/UqcJdQYNsf59vrRKWnojAT9Y+GbIvoTBC++CPHqpDBhQ==}
     engines: {node: '>=0.6'}
 
   quansync@0.2.10:
@@ -2358,7 +2355,7 @@ snapshots:
   '@eslint/config-array@0.20.0':
     dependencies:
       '@eslint/object-schema': 2.1.6
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.3
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -2755,7 +2752,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 8.31.1(typescript@5.8.3)
       '@typescript-eslint/utils': 8.31.1(eslint@9.26.0)(typescript@5.8.3)
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.3
       eslint: 9.26.0
       ts-api-utils: 2.1.0(typescript@5.8.3)
       typescript: 5.8.3
@@ -2768,7 +2765,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.31.1
       '@typescript-eslint/visitor-keys': 8.31.1
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.3
       fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.5
@@ -2993,11 +2990,11 @@ snapshots:
     dependencies:
       bytes: 3.1.2
       content-type: 1.0.5
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.3
       http-errors: 2.0.0
       iconv-lite: 0.6.3
       on-finished: 2.4.1
-      qs: 6.14.0
+      qs: 6.15.0
       raw-body: 3.0.0
       type-is: 2.0.1
     transitivePeerDependencies:
@@ -3110,13 +3107,9 @@ snapshots:
 
   content-type@1.0.5: {}
 
-  cookie-signature@1.0.6: {}
-
   cookie-signature@1.0.7: {}
 
   cookie-signature@1.2.2: {}
-
-  cookie@0.7.1: {}
 
   cookie@0.7.2: {}
 
@@ -3364,15 +3357,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  express@4.21.2:
+  express@4.22.1:
     dependencies:
       accepts: 1.3.8
       array-flatten: 1.1.1
       body-parser: 1.20.3
       content-disposition: 0.5.4
       content-type: 1.0.5
-      cookie: 0.7.1
-      cookie-signature: 1.0.6
+      cookie: 0.7.2
+      cookie-signature: 1.0.7
       debug: 2.6.9
       depd: 2.0.0
       encodeurl: 2.0.0
@@ -3387,7 +3380,7 @@ snapshots:
       parseurl: 1.3.3
       path-to-regexp: 0.1.12
       proxy-addr: 2.0.7
-      qs: 6.13.0
+      qs: 6.14.2
       range-parser: 1.2.1
       safe-buffer: 5.2.1
       send: 0.19.0
@@ -3408,7 +3401,7 @@ snapshots:
       content-type: 1.0.5
       cookie: 0.7.2
       cookie-signature: 1.2.2
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.3
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
@@ -3421,7 +3414,7 @@ snapshots:
       once: 1.4.0
       parseurl: 1.3.3
       proxy-addr: 2.0.7
-      qs: 6.14.0
+      qs: 6.15.0
       range-parser: 1.2.1
       router: 2.2.0
       send: 1.2.0
@@ -3482,7 +3475,7 @@ snapshots:
 
   finalhandler@2.1.0:
     dependencies:
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.3
       encodeurl: 2.0.0
       escape-html: 1.0.3
       on-finished: 2.4.1
@@ -3952,7 +3945,11 @@ snapshots:
     dependencies:
       side-channel: 1.1.0
 
-  qs@6.14.0:
+  qs@6.14.2:
+    dependencies:
+      side-channel: 1.1.0
+
+  qs@6.15.0:
     dependencies:
       side-channel: 1.1.0
 
@@ -4029,7 +4026,7 @@ snapshots:
 
   router@2.2.0:
     dependencies:
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.3
       depd: 2.0.0
       is-promise: 4.0.0
       parseurl: 1.3.3
@@ -4071,7 +4068,7 @@ snapshots:
 
   send@1.2.0:
     dependencies:
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.3
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
@@ -4201,7 +4198,7 @@ snapshots:
       formidable: 3.5.4
       methods: 1.1.2
       mime: 2.6.0
-      qs: 6.14.0
+      qs: 6.15.0
     transitivePeerDependencies:
       - supports-color
 
@@ -4341,7 +4338,7 @@ snapshots:
   vite-node@3.1.2(@types/node@20.17.32)(terser@5.39.0)(yaml@2.8.1):
     dependencies:
       cac: 6.7.14
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.3
       es-module-lexer: 1.7.0
       pathe: 2.0.3
       vite: 6.3.4(@types/node@20.17.32)(terser@5.39.0)(yaml@2.8.1)
