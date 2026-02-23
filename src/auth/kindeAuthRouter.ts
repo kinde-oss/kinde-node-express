@@ -46,16 +46,28 @@ export const validateQueryParams = (requestQuery: ParsedQs): Error | null => {
  * @returns {ParsedQs}
  */
 const mapAuthFlowQueryParams = (requestQuery: ParsedQs): ParsedQs => {
-  const invitationCode = requestQuery.invitation_code;
-  if (typeof invitationCode !== "string") {
-    return requestQuery;
+  const mappedQuery = {
+    ...requestQuery,
+  };
+  const invitationCode = mappedQuery.invitation_code;
+
+  let normalizedInvitationCode: string | undefined;
+  if (typeof invitationCode === "string") {
+    normalizedInvitationCode = invitationCode;
+  } else if (
+    Array.isArray(invitationCode) &&
+    typeof invitationCode[0] === "string"
+  ) {
+    normalizedInvitationCode = invitationCode[0];
   }
 
-  const trimmedInvitationCode = invitationCode.trim();
+  if (normalizedInvitationCode === undefined) {
+    delete mappedQuery.invitation_code;
+    return mappedQuery;
+  }
+
+  const trimmedInvitationCode = normalizedInvitationCode.trim();
   if (!trimmedInvitationCode) {
-    const mappedQuery = {
-      ...requestQuery,
-    };
     delete mappedQuery.invitation_code;
     return mappedQuery;
   }
