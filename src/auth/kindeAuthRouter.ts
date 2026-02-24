@@ -46,35 +46,25 @@ export const validateQueryParams = (requestQuery: ParsedQs): Error | null => {
  * @returns {ParsedQs}
  */
 const mapAuthFlowQueryParams = (requestQuery: ParsedQs): ParsedQs => {
-  const mappedQuery = {
-    ...requestQuery,
-  };
-  const invitationCode = mappedQuery.invitation_code;
+  const { invitation_code: rawInvitationCode, ...restQuery } = requestQuery;
 
-  let normalizedInvitationCode: string | undefined;
-  if (typeof invitationCode === "string") {
-    normalizedInvitationCode = invitationCode;
+  let invitationCode: string | undefined;
+  if (typeof rawInvitationCode === "string") {
+    invitationCode = rawInvitationCode.trim();
   } else if (
-    Array.isArray(invitationCode) &&
-    typeof invitationCode[0] === "string"
+    Array.isArray(rawInvitationCode) &&
+    typeof rawInvitationCode[0] === "string"
   ) {
-    normalizedInvitationCode = invitationCode[0];
+    invitationCode = rawInvitationCode[0].trim();
   }
 
-  if (normalizedInvitationCode === undefined) {
-    delete mappedQuery.invitation_code;
-    return mappedQuery;
-  }
-
-  const trimmedInvitationCode = normalizedInvitationCode.trim();
-  if (!trimmedInvitationCode) {
-    delete mappedQuery.invitation_code;
-    return mappedQuery;
+  if (!invitationCode) {
+    return restQuery;
   }
 
   return {
-    ...requestQuery,
-    invitation_code: trimmedInvitationCode,
+    ...restQuery,
+    invitation_code: invitationCode,
     is_invitation: "true",
   };
 };
