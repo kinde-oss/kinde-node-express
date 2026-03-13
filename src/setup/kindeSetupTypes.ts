@@ -16,21 +16,18 @@ interface CommonSetupConfigParams<G extends GrantType> {
   scope?: string;
 }
 
-interface ACSetupConfigParams
-  extends CommonSetupConfigParams<GrantType.AUTHORIZATION_CODE> {
+interface ACSetupConfigParams extends CommonSetupConfigParams<GrantType.AUTHORIZATION_CODE> {
   secret: string;
   unAuthorisedUrl: string;
   redirectUrl: string;
 }
 
-interface PKCESetupConfigParams
-  extends CommonSetupConfigParams<GrantType.PKCE> {
+interface PKCESetupConfigParams extends CommonSetupConfigParams<GrantType.PKCE> {
   unAuthorisedUrl: string;
   redirectUrl: string;
 }
 
-interface CCSetupConfigParams
-  extends CommonSetupConfigParams<GrantType.CLIENT_CREDENTIALS> {
+interface CCSetupConfigParams extends CommonSetupConfigParams<GrantType.CLIENT_CREDENTIALS> {
   secret: string;
 }
 
