@@ -39,9 +39,9 @@ importers:
       '@eslint/js':
         specifier: ^9.26.0
         version: 9.26.0
-      '@tsconfig/node19':
-        specifier: ^19.1.2
-        version: 19.1.5
+      '@tsconfig/node20':
+        specifier: ^20.1.0
+        version: 20.1.9
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.23
@@ -594,8 +594,8 @@ packages:
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
 
-  '@tsconfig/node19@19.1.5':
-    resolution: {integrity: sha512-dgXw9wSRjfmHSu1THzmkouix4afgoHOi3mzsVnheNteYY3SRXhSkb9b9zTMhVCUYHv+Gu8w/NZKmw+pOktQtRQ==}
+  '@tsconfig/node20@20.1.9':
+    resolution: {integrity: sha512-IjlTv1RsvnPtUcjTqtVsZExKVq+KQx4g5pCP5tI7rAs6Xesl2qFwSz/tPDBC4JajkL/MlezBu3gPUwqRHl+RIg==}
 
   '@types/argparse@1.0.38':
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
@@ -2695,7 +2695,7 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
-  '@tsconfig/node19@19.1.5': {}
+  '@tsconfig/node20@20.1.9': {}
 
   '@types/argparse@1.0.38': {}
 
