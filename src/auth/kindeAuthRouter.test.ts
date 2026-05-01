@@ -27,6 +27,72 @@ describe("kindeAuthRouter", () => {
       expect(response.headers.location).toBe(registerURL.toString());
     });
 
+    it("starts invitation registration flow with invitation_code and is_invitation", async () => {
+      const registerURL = getMockAuthURL({ start_page: "registration" });
+      registerMock.mockResolvedValue(registerURL);
+
+      const response = await request(app)
+        .get("/register")
+        .query({ invitation_code: "inv_123" });
+
+      expect(response.status).toBe(302);
+      expect(registerMock).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          invitation_code: "inv_123",
+          is_invitation: "true",
+        }),
+      );
+    });
+
+    it("does not forward blank invitation_code for registration flow", async () => {
+      const registerURL = getMockAuthURL({ start_page: "registration" });
+      registerMock.mockResolvedValue(registerURL);
+
+      const response = await request(app)
+        .get("/register")
+        .query({ invitation_code: "   " });
+
+      expect(response.status).toBe(302);
+      expect(registerMock).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.not.objectContaining({ invitation_code: expect.anything() }),
+      );
+    });
+
+    it("uses first invitation_code value when invitation_code is an array", async () => {
+      const registerURL = getMockAuthURL({ start_page: "registration" });
+      registerMock.mockResolvedValue(registerURL);
+
+      const response = await request(app)
+        .get("/register")
+        .query("invitation_code=%20inv_first%20&invitation_code=inv_second");
+
+      expect(response.status).toBe(302);
+      expect(registerMock).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          invitation_code: "inv_first",
+          is_invitation: "true",
+        }),
+      );
+    });
+
+    it("does not forward invitation_code when invitation_code is a non-string object", async () => {
+      const registerURL = getMockAuthURL({ start_page: "registration" });
+      registerMock.mockResolvedValue(registerURL);
+
+      const response = await request(app)
+        .get("/register")
+        .query("invitation_code[raw]=abc");
+
+      expect(response.status).toBe(302);
+      expect(registerMock).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.not.objectContaining({ invitation_code: expect.anything() }),
+      );
+    });
+
     it("raises exception if optional organization code is invalid", async () => {
       const query = { org_code: "" };
       const response = await request(app).get("/register").query(query);
@@ -52,6 +118,72 @@ describe("kindeAuthRouter", () => {
       const response = await request(app).get("/login");
       expect(response.status).toBe(302);
       expect(response.headers.location).toBe(loginURL.toString());
+    });
+
+    it("starts invitation login flow with invitation_code and is_invitation", async () => {
+      const loginURL = getMockAuthURL();
+      loginMock.mockResolvedValue(loginURL);
+
+      const response = await request(app)
+        .get("/login")
+        .query({ invitation_code: "inv_123" });
+
+      expect(response.status).toBe(302);
+      expect(loginMock).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          invitation_code: "inv_123",
+          is_invitation: "true",
+        }),
+      );
+    });
+
+    it("does not forward blank invitation_code for login flow", async () => {
+      const loginURL = getMockAuthURL();
+      loginMock.mockResolvedValue(loginURL);
+
+      const response = await request(app)
+        .get("/login")
+        .query({ invitation_code: "   " });
+
+      expect(response.status).toBe(302);
+      expect(loginMock).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.not.objectContaining({ invitation_code: expect.anything() }),
+      );
+    });
+
+    it("uses first invitation_code value when invitation_code is an array", async () => {
+      const loginURL = getMockAuthURL();
+      loginMock.mockResolvedValue(loginURL);
+
+      const response = await request(app)
+        .get("/login")
+        .query("invitation_code=%20inv_first%20&invitation_code=inv_second");
+
+      expect(response.status).toBe(302);
+      expect(loginMock).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          invitation_code: "inv_first",
+          is_invitation: "true",
+        }),
+      );
+    });
+
+    it("does not forward invitation_code when invitation_code is a non-string object", async () => {
+      const loginURL = getMockAuthURL();
+      loginMock.mockResolvedValue(loginURL);
+
+      const response = await request(app)
+        .get("/login")
+        .query("invitation_code[raw]=abc");
+
+      expect(response.status).toBe(302);
+      expect(loginMock).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.not.objectContaining({ invitation_code: expect.anything() }),
+      );
     });
 
     it("raises exception if optional organization code is invalid", async () => {
