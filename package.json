@@ -85,8 +85,8 @@
     "aws-jwt-verify": "^5.0.0",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
-    "express": "^4.22.0",
+    "express": "^4.22.1",
     "express-session": "^1.18.1",
-    "qs": "^6.14.2"
+    "qs": "^6.15.0"
   }
 }
