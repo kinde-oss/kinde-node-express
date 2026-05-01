@@ -38,6 +38,38 @@ export const validateQueryParams = (requestQuery: ParsedQs): Error | null => {
 };
 
 /**
+ * Maps incoming query params for auth flow starts.
+ *
+ * Adds `is_invitation=true` when a valid `invitation_code` is present.
+ *
+ * @param {ParsedQs} requestQuery
+ * @returns {ParsedQs}
+ */
+const mapAuthFlowQueryParams = (requestQuery: ParsedQs): ParsedQs => {
+  const { invitation_code: rawInvitationCode, ...restQuery } = requestQuery;
+
+  let invitationCode: string | undefined;
+  if (typeof rawInvitationCode === "string") {
+    invitationCode = rawInvitationCode.trim();
+  } else if (
+    Array.isArray(rawInvitationCode) &&
+    typeof rawInvitationCode[0] === "string"
+  ) {
+    invitationCode = rawInvitationCode[0].trim();
+  }
+
+  if (!invitationCode) {
+    return restQuery;
+  }
+
+  return {
+    ...restQuery,
+    invitation_code: invitationCode,
+    is_invitation: "true",
+  };
+};
+
+/**
  * Creates login URL using internal SDK and redirects to said URL.
  *
  * @param {Request} req - The Express request object.
@@ -57,7 +89,7 @@ const handleLogin = async (
   }
 
   const client = getInternalClient<GrantType.AUTHORIZATION_CODE>();
-  const loginURL = await client.login(req, req.query);
+  const loginURL = await client.login(req, mapAuthFlowQueryParams(req.query));
   res.redirect(loginURL.toString());
 };
 
@@ -95,7 +127,10 @@ const handleRegister = async (
   }
 
   const client = getInternalClient<GrantType.AUTHORIZATION_CODE>();
-  const registerURL = await client.register(req, req.query);
+  const registerURL = await client.register(
+    req,
+    mapAuthFlowQueryParams(req.query),
+  );
   res.redirect(registerURL.toString());
 };
 
