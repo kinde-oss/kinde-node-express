@@ -24,13 +24,13 @@ importers:
         specifier: ^5.2.6
         version: 5.5.5(eslint-config-prettier@10.1.8(eslint@9.26.0))(eslint@9.26.0)(prettier@3.5.3)
       express:
-        specifier: ^4.22.0
+        specifier: ^4.22.1
         version: 4.22.1
       express-session:
         specifier: ^1.18.1
         version: 1.19.0
       qs:
-        specifier: ^6.14.1
+        specifier: ^6.15.0
         version: 6.15.1
     devDependencies:
       '@eslint/eslintrc':
