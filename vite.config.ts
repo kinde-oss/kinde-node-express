@@ -6,6 +6,7 @@ const external = [
   "express",
   "express-session",
   "@kinde-oss/kinde-typescript-sdk",
+  "@kinde/js-utils",
   "@kinde/jwt-validator",
   "aws-jwt-verify",
   "crypto",
