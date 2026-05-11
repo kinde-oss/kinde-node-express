@@ -46,7 +46,7 @@
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.26.0",
     "@tsconfig/node20": "^20.1.0",
-    "@types/express": "^4.17.21",
+    "@types/express": "^5.0.0",
     "@types/express-session": "^1.18.0",
     "@types/node": "^20.10.5",
     "@types/supertest": "^6.0.2",
@@ -85,7 +85,7 @@
     "aws-jwt-verify": "^5.1.1",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
-    "express": "^4.22.1",
+    "express": "^5.0.0",
     "express-session": "^1.18.1",
     "qs": "^6.15.0"
   }
