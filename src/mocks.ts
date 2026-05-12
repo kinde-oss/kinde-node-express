@@ -1,4 +1,5 @@
-import { GrantType, setupKinde } from "./index.js";
+import { GrantType } from "@kinde-oss/kinde-typescript-sdk";
+import { setupKinde } from "./index.js";
 import express from "express";
 
 export const mockClientConfig = {

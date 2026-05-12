@@ -6,7 +6,7 @@ import type {
   CCClientOptions,
 } from "@kinde-oss/kinde-typescript-sdk";
 
-interface CommonSetupConfigParams<G extends GrantType> {
+export interface CommonSetupConfigParams<G extends GrantType> {
   grantType: G;
   issuerBaseUrl: string;
   postLogoutRedirectUrl: string;
@@ -16,20 +16,20 @@ interface CommonSetupConfigParams<G extends GrantType> {
   scope?: string;
 }
 
-interface ACSetupConfigParams
+export interface ACSetupConfigParams
   extends CommonSetupConfigParams<GrantType.AUTHORIZATION_CODE> {
   secret: string;
   unAuthorisedUrl: string;
   redirectUrl: string;
 }
 
-interface PKCESetupConfigParams
+export interface PKCESetupConfigParams
   extends CommonSetupConfigParams<GrantType.PKCE> {
   unAuthorisedUrl: string;
   redirectUrl: string;
 }
 
-interface CCSetupConfigParams
+export interface CCSetupConfigParams
   extends CommonSetupConfigParams<GrantType.CLIENT_CREDENTIALS> {
   secret: string;
 }
@@ -38,7 +38,7 @@ export type ClientType<G extends GrantType> = ReturnType<
   typeof createKindeServerClient<G>
 >;
 
-export type SetupConfig<G> = G extends GrantType.PKCE
+export type SetupConfig<G extends GrantType> = G extends GrantType.PKCE
   ? PKCESetupConfigParams
   : G extends GrantType.AUTHORIZATION_CODE
     ? ACSetupConfigParams
