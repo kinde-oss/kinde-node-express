@@ -87,6 +87,6 @@
     "eslint-plugin-prettier": "^5.2.6",
     "express": "^5.0.0",
     "express-session": "^1.18.1",
-    "qs": "^6.15.0"
+    "qs": "^6.15.2"
   }
 }
