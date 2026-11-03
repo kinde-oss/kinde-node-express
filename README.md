@@ -22,6 +22,28 @@ The core team handles publishing.
 
 Please refer to Kinde’s [contributing guidelines](https://github.com/kinde-oss/.github/blob/489e2ca9c3307c2b2e098a885e22f2239116394a/CONTRIBUTING.md).
 
+### Development
+
+Use Node.js 24 and pnpm 12, matching the build and release workflows. These
+development-tool requirements are separate from the SDK's runtime requirements.
+
+```sh
+pnpm install --frozen-lockfile
+pnpm typecheck
+pnpm lint
+pnpm test:coverage --run
+pnpm build
+pnpm test:package
+```
+
+The package tests load the built CommonJS and ESM public entry points and check
+the declared TypeScript entry points. Run them after building.
+
+Keep `vitest` and `@vitest/coverage-v8` pinned to the same exact version. Vitest 5
+clears mock call histories before each test, without resetting implementations.
+Record mocked calls inside tests or `beforeEach` hooks, and await asynchronous
+assertions.
+
 ## License
 
 By contributing to Kinde, you agree that your contributions will be licensed under its MIT License.

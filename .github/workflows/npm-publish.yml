@@ -12,22 +12,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 12
       - uses: actions/setup-node@v7
         with:
           node-version: 24
-      - run: npm ci
-      - run: npm test
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - run: pnpm test:package
 
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 12
       - uses: actions/setup-node@v7
         with:
           node-version: 24
+          cache: "pnpm"
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm test:package
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
