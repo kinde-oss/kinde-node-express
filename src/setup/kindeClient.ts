@@ -2,11 +2,7 @@ import {
   GrantType,
   createKindeServerClient,
 } from "@kinde-oss/kinde-typescript-sdk";
-import type {
-  SetupConfig,
-  ClientType,
-  ClientOptions,
-} from "./kindeSetupTypes.js";
+import type { SetupConfig, ClientType } from "./kindeSetupTypes.js";
 import packageJson from "../../package.json" with { type: "json" };
 import { readFileSync } from "fs";
 import { createRequire } from "module";
@@ -137,20 +133,22 @@ export const setupInternalClient = <G extends GrantType>(
     `Kinde Express SDK ${packageJson.version} for Express ${getApplicationExpressVersionESM()}`,
   );
 
-  internalClient = createKindeServerClient<G>(
-    initialConfig.grantType as G,
-    {
-      authDomain: issuerBaseUrl,
-      redirectURL: redirectUrl,
-      clientId: clientId ?? "reg@live",
-      clientSecret: secret,
-      logoutRedirectURL: postLogoutRedirectUrl,
-      audience: audience ?? undefined,
-      scope: scope ?? undefined,
-      framework: "ExpressJS",
-      frameworkVersion: packageJson.version,
-      sdkVersion: packageJson.version,
-    } as ClientOptions<G>,
+  const clientOptions = {
+    authDomain: issuerBaseUrl,
+    redirectURL: redirectUrl,
+    clientId: clientId ?? "reg@live",
+    clientSecret: secret,
+    logoutRedirectURL: postLogoutRedirectUrl,
+    audience: audience ?? undefined,
+    scope: scope ?? undefined,
+    framework: "ExpressJS",
+    frameworkVersion: packageJson.version,
+    sdkVersion: packageJson.version,
+  };
+
+  internalClient = createKindeServerClient(
+    initialConfig.grantType,
+    clientOptions,
   );
 
   return internalClient as ClientType<G>;

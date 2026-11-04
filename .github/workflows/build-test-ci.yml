@@ -22,7 +22,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
       - run: pnpm lint
       - name: Cache pnpm modules
         uses: actions/cache@v6
@@ -32,6 +33,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
       - run: pnpm build
+      - run: pnpm test:package
       - run: pnpm test:coverage
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v7.1.1

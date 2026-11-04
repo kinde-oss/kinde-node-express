@@ -2,7 +2,6 @@ import type { GrantType } from "@kinde-oss/kinde-typescript-sdk";
 import type { Request, Response, NextFunction, Router } from "express";
 import { getRequestURL } from "../utils.js";
 import { getInitialConfig, getInternalClient } from "../setup/index.js";
-import type { ParsedQs } from "qs";
 import express from "express";
 
 /**
@@ -23,7 +22,9 @@ export const getRedirectRoute = (): string => {
  * @param {object} requestQuery
  * @returns {Error | null}
  */
-export const validateQueryParams = (requestQuery: ParsedQs): Error | null => {
+export const validateQueryParams = (
+  requestQuery: Request["query"],
+): Error | null => {
   const queryParams = ["org_code"];
   for (const param of queryParams) {
     const value = requestQuery[param];
@@ -42,10 +43,12 @@ export const validateQueryParams = (requestQuery: ParsedQs): Error | null => {
  *
  * Adds `is_invitation=true` when a valid `invitation_code` is present.
  *
- * @param {ParsedQs} requestQuery
- * @returns {ParsedQs}
+ * @param {Request["query"]} requestQuery
+ * @returns {Request["query"]}
  */
-const mapAuthFlowQueryParams = (requestQuery: ParsedQs): ParsedQs => {
+const mapAuthFlowQueryParams = (
+  requestQuery: Request["query"],
+): Request["query"] => {
   const { invitation_code: rawInvitationCode, ...restQuery } = requestQuery;
 
   let invitationCode: string | undefined;

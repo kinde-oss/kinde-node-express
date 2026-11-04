@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import { resolve } from "path";
+import { isBuiltin } from "node:module";
 
 const external = [
   "express",
@@ -8,16 +9,13 @@ const external = [
   "@kinde-oss/kinde-typescript-sdk",
   "@kinde/jwt-validator",
   "aws-jwt-verify",
-  "crypto",
-  "fs",
-  "module",
 ];
 
 export default defineConfig({
   build: {
     copyPublicDir: false,
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
+      entry: resolve(import.meta.dirname, "src/index.ts"),
       formats: ["es", "cjs"],
       name: "@kinde-oss/kinde-node-express",
       fileName: (format) =>
@@ -25,8 +23,9 @@ export default defineConfig({
     },
     target: "esnext",
     outDir: "./dist",
-    rollupOptions: {
-      external,
+    rolldownOptions: {
+      platform: "node",
+      external: (id) => isBuiltin(id) || external.includes(id),
       output: {
         globals: {
           "@kinde/jwt-decoder": "jwtDecoder",
@@ -36,7 +35,7 @@ export default defineConfig({
       },
     },
   },
-  resolve: { alias: { src: resolve(__dirname, "src") } },
+  resolve: { alias: { src: resolve(import.meta.dirname, "src") } },
   plugins: [
     dts({
       insertTypesEntry: true,
